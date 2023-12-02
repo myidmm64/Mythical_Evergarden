@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: PoolData
   m_EditorClassIdentifier: 
   poolDatas:
-  - spawnCount: 0
-    poolType: 0
-    obj: {fileID: 0}
+  - spawnCount: 10
+    poolType: 1
+    obj: {fileID: 4695967140684516641, guid: 6b4a4f8876f410541bcd407e935a1c7f, type: 3}
