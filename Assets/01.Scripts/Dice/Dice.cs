@@ -8,7 +8,6 @@ public class Dice : PoolableObject
     public IDiceUnit diceUnit = null; // 현재 주사위에 있는 오브젝트
     public bool Moveable => diceUnit != null;
 
-    public Vector2 diceKey = Vector2.zero;
     private int _dicePip = 0; // 주사위 눈
     public int dicePip { get => _dicePip; set { _dicePip = value; RollAnimation(); } }
 

@@ -31,8 +31,7 @@ public class DiceManager : MonoSingleTon<DiceManager>
             for (int j = 0; j < height; j++)
             {
                 Dice dice = PoolManager.Instance.Pop(EPoolType.NormalDice) as Dice;
-                dice.transform.position = (Vector3)_diceCenterPosition + new Vector3(i, j);
-                dice.diceKey = new Vector2(i, j);
+                dice.transform.position = (Vector3)_diceCenterPosition + new Vector3(i, 0, j);
                 _dices.Add(new Vector2(i, j), dice);
                 dice.transform.SetParent(transform, false);
             }
