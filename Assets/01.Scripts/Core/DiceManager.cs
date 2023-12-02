@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public class DiceManager : MonoSingleTon<DiceManager>
 {
@@ -31,7 +32,8 @@ public class DiceManager : MonoSingleTon<DiceManager>
             for (int j = 0; j < height; j++)
             {
                 Dice dice = PoolManager.Instance.Pop(EPoolType.NormalDice) as Dice;
-                dice.transform.position = (Vector3)_diceCenterPosition + new Vector3(i, 0, j);
+                dice.transform.position = (Vector3)_diceCenterPosition + new Vector3(i, j);
+                dice.GetComponent<SpriteRenderer>().color = new Color(Random.Range(0f, 1f), Random.Range(0f, 1f), Random.Range(0f, 1f));
                 _dices.Add(new Vector2(i, j), dice);
                 dice.transform.SetParent(transform, false);
             }
