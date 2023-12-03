@@ -17,8 +17,8 @@ public class TestPlayer : MonoBehaviour, IDiceUnit
 
     private void Start()
     {
-        transform.position = DiceManager.Instance.GetDice(_currentPos).transform.position;
         _currentPos = new Vector2Int(1, 1);
+        transform.position = DiceManager.Instance.GetDice(_currentPos).transform.position;
     }
 
     private void Update()

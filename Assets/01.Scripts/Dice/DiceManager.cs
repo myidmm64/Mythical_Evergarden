@@ -14,19 +14,28 @@ public class DiceManager : MonoSingleTon<DiceManager>
     private DiceGenerator _diceGenerator = null;
     private DiceSelector _diceSelector = null;
 
+    public Vector2Int mapSize { get; private set; }
+
     [SerializeField]
     private DiceGenerateDataSO _diceGenerateDataSO = null;
 
     private void Awake()
     {
         _diceGenerator = new DiceGenerator();
-        _diceGenerator.GenerateDices(_dices, _diceGenerateDataSO, transform);
-        _diceSelector = new DiceSelector(_dices);
+        GenerateMap();
+        _diceSelector = new DiceSelector(_dices, mapSize);
+    }
+
+    private void GenerateMap()
+    {
+        _diceGenerator.GenerateDices(_dices, _diceGenerateDataSO, transform, out int maxRow, out int maxColumn);
+        mapSize = new Vector2Int(maxRow, maxColumn);
     }
 
     public Dice GetDice(Vector2Int position) => _diceSelector.GetDice(position);
     public IEnumerable<Dice> GetSamePipDices(int dicePip) => _diceSelector.GetSamePipDices(dicePip);
     public IEnumerable<Dice> GetDiceRow(int rowNum) => _diceSelector.GetDiceRow(rowNum);
     public IEnumerable<Dice> GetDiceColumn(int columnNum) => _diceSelector.GetDiceColumn(columnNum);
-    public IEnumerable<Dice> GetDices(Vector2 center, int[,] pattern) => _diceSelector.GetDices(center, pattern);
+    public IEnumerable<Dice> GetDiceLine(Vector2Int startPos, EDirection direction) => _diceSelector.GetDiceLine(startPos, direction);
+    public IEnumerable<Dice> GetDiceLine(Vector2Int startPos, EDirection direction, int count) => _diceSelector.GetDiceLine(startPos, direction, count);
 }

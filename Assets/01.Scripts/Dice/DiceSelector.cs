@@ -6,14 +6,16 @@ using UnityEngine;
 public class DiceSelector
 {
     private Dictionary<Vector2Int, Dice> _dices = null;
+    private Vector2Int _mapSize = Vector2Int.zero;
 
-    public DiceSelector(Dictionary<Vector2Int, Dice> dices)
+    public DiceSelector(Dictionary<Vector2Int, Dice> dices, Vector2Int mapSize)
     {
-        if (dices == null)
+        if (dices == null || mapSize == Vector2Int.zero)
         {
-            Debug.LogError("dices가 null입니다.");
+            Debug.LogError("DiceSeletor Constructor Error");
         }
         _dices = dices;
+        _mapSize = mapSize;
     }
 
     public Dice GetDice(Vector2Int position)
@@ -46,11 +48,21 @@ public class DiceSelector
         return query;
     }
 
+    public IEnumerable<Dice> GetDiceLine(Vector2Int startPos, EDirection direction)
+    {
+        List<Dice> result = new List<Dice>();
+        int maxCount = Utility.GetMaxCountWithDirection(direction, _mapSize);
+        result.AddRange(GetDiceLine(startPos, direction, maxCount));
+        EDirection reflectDirection = Utility.GetReflectDirection(direction);
+        result.AddRange(GetDiceLine(startPos, reflectDirection, maxCount));
+        return result.ExcludeReduplication();
+    }
+
     public IEnumerable<Dice> GetDiceLine(Vector2Int startPos, EDirection direction, int count)
     {
         List<Dice> result = new List<Dice>();
         Vector2Int dir = Utility.GetDirection(direction);
-        for (int i = 1; i <= count; i++)
+        for (int i = 0; i <= count; i++)
         {
             result.Add(GetDice(startPos + dir * i));
         }
