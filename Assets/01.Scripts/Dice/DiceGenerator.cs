@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class DiceGenerator
 {
-    public void GenerateDices(Dictionary<Vector2, Dice> dices, DiceGenerateDataSO data, Transform parentTrm)
+    public void GenerateDices(Dictionary<Vector2Int, Dice> dices, DiceGenerateDataSO data, Transform parentTrm)
     {
         string[] rows = data.diceMapStr.Split('\n');
         int columnCount = rows.Length;
@@ -19,7 +19,7 @@ public class DiceGenerator
                 Dice dice = PopDice((EDiceType)number);
                 if (dice == null) continue;
 
-                Vector2 diceKey = new Vector2(j, columnCount - i + 1);
+                Vector2Int diceKey = new Vector2Int(j, columnCount - i + 1);
                 dice.diceKey = diceKey;
 
                 Vector2 dicePosition = startPos + GetPaddingPos(new Vector2(j - 1, columnCount - i), data.dicePositionDistance);

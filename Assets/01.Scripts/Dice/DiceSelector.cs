@@ -5,20 +5,20 @@ using UnityEngine;
 
 public class DiceSelector
 {
-    private Dictionary<Vector2, Dice> _dices = null;
+    private Dictionary<Vector2Int, Dice> _dices = null;
 
-    public DiceSelector(Dictionary<Vector2, Dice> dices)
+    public DiceSelector(Dictionary<Vector2Int, Dice> dices)
     {
-        if(dices == null)
+        if (dices == null)
         {
             Debug.LogError("dices가 null입니다.");
         }
         _dices = dices;
     }
 
-    public Dice GetDice(int row, int column)
+    public Dice GetDice(Vector2Int position)
     {
-        _dices.TryGetValue(new Vector2(row, column), out var dice);
+        _dices.TryGetValue(position, out var dice);
         return dice;
     }
 
@@ -30,20 +30,38 @@ public class DiceSelector
         return query;
     }
 
-    public IEnumerable<Dice> GetDiceRow(int row)
+    public IEnumerable<Dice> GetDiceRow(int rowNum)
     {
         var query = from diceKeyValue in _dices
-                    where diceKeyValue.Key.y == row
+                    where diceKeyValue.Key.y == rowNum
                     select diceKeyValue.Value;
         return query;
     }
 
-    public IEnumerable<Dice> GetDiceColumn(int column)
+    public IEnumerable<Dice> GetDiceColumn(int columnNum)
     {
         var query = from diceKeyValue in _dices
-                    where diceKeyValue.Key.x == column
+                    where diceKeyValue.Key.x == columnNum
                     select diceKeyValue.Value;
         return query;
+    }
+
+    public IEnumerable<Dice> GetDiceLine(Vector2Int startPos, EDirection direction, int count)
+    {
+        List<Dice> result = new List<Dice>();
+        Vector2Int dir = Utility.GetDirection(direction);
+        for (int i = 1; i <= count; i++)
+        {
+            result.Add(GetDice(startPos + dir * i));
+        }
+        return result;
+    }
+
+    public IEnumerable<Dice> GetDiceRectangle(Vector2Int centerPos, int size)
+    {
+        List<Dice> result = new List<Dice>();
+
+        return result;
     }
 
     public IEnumerable<Dice> GetDices(Vector2 center, int[,] pattern)

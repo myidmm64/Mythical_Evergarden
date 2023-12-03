@@ -10,7 +10,7 @@ public class DiceManager : MonoSingleTon<DiceManager>
     [SerializeField]
     private TestPlayer _player = null;
 
-    private Dictionary<Vector2, Dice> _dices = new Dictionary<Vector2, Dice>();
+    private Dictionary<Vector2Int, Dice> _dices = new Dictionary<Vector2Int, Dice>();
     private DiceGenerator _diceGenerator = null;
     private DiceSelector _diceSelector = null;
 
@@ -24,9 +24,9 @@ public class DiceManager : MonoSingleTon<DiceManager>
         _diceSelector = new DiceSelector(_dices);
     }
 
-    public Dice GetDice(int row, int column) => _diceSelector.GetDice(row, column);
+    public Dice GetDice(Vector2Int position) => _diceSelector.GetDice(position);
     public IEnumerable<Dice> GetSamePipDices(int dicePip) => _diceSelector.GetSamePipDices(dicePip);
-    public IEnumerable<Dice> GetDiceRow(int row) => _diceSelector.GetDiceRow(row);
-    public IEnumerable<Dice> GetDiceColumn(int column) => _diceSelector.GetDiceColumn(column);
+    public IEnumerable<Dice> GetDiceRow(int rowNum) => _diceSelector.GetDiceRow(rowNum);
+    public IEnumerable<Dice> GetDiceColumn(int columnNum) => _diceSelector.GetDiceColumn(columnNum);
     public IEnumerable<Dice> GetDices(Vector2 center, int[,] pattern) => _diceSelector.GetDices(center, pattern);
 }
