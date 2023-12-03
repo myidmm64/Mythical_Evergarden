@@ -9,7 +9,7 @@ public class DiceGenerator
         string[] rows = data.diceMapStr.Split('\n');
         int columnCount = rows.Length;
         int rowCount = rows[0].Length;
-        Vector2 startPos = data.diceCenterPosition + GetPaddingPos(-new Vector2(rowCount / 2, columnCount / 2), data.dicePositionPadding);
+        Vector2 startPos = data.diceCenterPosition + GetPaddingPos(-new Vector2(rowCount / 2, columnCount / 2), data.dicePositionDistance);
 
         for (int i = 1; i <= columnCount; i++)
         {
@@ -22,7 +22,7 @@ public class DiceGenerator
                 Vector2 diceKey = new Vector2(j, columnCount - i + 1);
                 dice.diceKey = diceKey;
 
-                Vector2 dicePosition = startPos + GetPaddingPos(new Vector2(j - 1, columnCount - i), data.dicePositionPadding);
+                Vector2 dicePosition = startPos + GetPaddingPos(new Vector2(j - 1, columnCount - i), data.dicePositionDistance);
                 dice.transform.position = dicePosition;
                 dice.transform.SetParent(parentTrm, false);
 

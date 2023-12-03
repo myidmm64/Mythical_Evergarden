@@ -13,6 +13,14 @@ public class TestPlayer : MonoBehaviour, IDiceUnit
     private float _moveDelay = 0.5f;
     private bool _moveable = true;
 
+    private Vector2Int _currentPos = Vector2Int.zero;
+
+    private void Start()
+    {
+        transform.position = DiceManager.Instance.GetDice(1, 1).transform.position;
+        _currentPos = new Vector2Int(1, 1);
+    }
+
     private void Update()
     {
         if (!_moveable)
@@ -25,8 +33,9 @@ public class TestPlayer : MonoBehaviour, IDiceUnit
         if (moveAmount.sqrMagnitude > 0)
         {
             transform.position = transform.position + (Vector3)(moveAmount * _moveAmount);
+            _currentPos += Vector2Int.FloorToInt(moveAmount);
 
-            _dice = DiceManager.Instance.GetNearDice(transform.position);
+            _dice = DiceManager.Instance.GetDice(_currentPos.x, _currentPos.y);
 
             StartCoroutine(MoveDelayCoroutine());
         }

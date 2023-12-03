@@ -30,7 +30,6 @@ public class Dice : PoolableObject
 
     public void RollAnimation()
     {
-        Debug.Log("Roll");
     }
 
     public override void PopInit()
