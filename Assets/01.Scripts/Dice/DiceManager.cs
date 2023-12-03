@@ -12,33 +12,57 @@ public class DiceManager : MonoSingleTon<DiceManager>
     [SerializeField]
     private TestPlayer _player = null;
 
-
+    [TextArea]
+    public string _diceMapStr = null;
     [SerializeField]
     private Vector2 _diceCenterPosition = Vector2.zero;
     [SerializeField]
-    private Vector2Int _diceCounts = Vector2Int.zero;
+    private Vector2 _dicePositionPadding = Vector2.zero;
 
     private void Start()
     {
-        SpawnDices();
+        GenerateDices(_diceMapStr);
     }
 
-    private void SpawnDices()
+    private void GenerateDices(string map)
     {
-        int width = _diceCounts.x;
-        int height = _diceCounts.y;
-        for (int i = 0; i < width; i++)
+        string[] rows = map.Split('\n');
+        int column = rows.Length;
+        int row = rows[0].Length;
+        Vector2 startPos = _diceCenterPosition + GetPaddingPos(-new Vector2(row / 2, column / 2));
+
+        for (int i = 1; i <= column; i++)
         {
-            for (int j = 0; j < height; j++)
+            for (int j = 1; j <= row; j++)
             {
-                Dice dice = PoolManager.Instance.Pop(EPoolType.NormalDice) as Dice;
-                dice.transform.position = (Vector3)_diceCenterPosition + new Vector3(i, j);
-                dice.GetComponent<SpriteRenderer>().color = new Color(Random.Range(0f, 1f), Random.Range(0f, 1f), Random.Range(0f, 1f));
-                _dices.Add(new Vector2(i, j), dice);
+                int number = rows[i - 1][j - 1] - '0';
+                Dice dice = GetDice((EDiceType)number);
+                if (dice == null) continue;
+
+                Vector2 diceKey = new Vector2(j, column - i + 1);
+                dice.diceKey = diceKey;
+
+                Vector2 dicePosition = startPos + (new Vector2(j - 1, column - i) * _dicePositionPadding);
+                dice.transform.position = dicePosition;
                 dice.transform.SetParent(transform, false);
+
+                dice.InitDice();
+                _dices.Add(diceKey, dice);
             }
         }
     }
+
+    private Vector2 GetPaddingPos(Vector2 pos)
+    {
+        return pos * _dicePositionPadding;
+    }
+
+    private Dice GetDice(EDiceType diceType) => diceType switch
+    {
+        EDiceType.None => null,
+        EDiceType.NormalDice => PoolManager.Instance.Pop(EPoolType.NormalDice) as Dice,
+        _ => null
+    };
 
     public Dice GetNearDice(Vector2 position)
     {
