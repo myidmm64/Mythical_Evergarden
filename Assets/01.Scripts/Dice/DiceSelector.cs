@@ -1,8 +1,10 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using Unity.VisualScripting;
 using UnityEngine;
+using static UnityEditor.Experimental.AssetDatabaseExperimental.AssetDatabaseCounters;
 
 public class DiceSelector
 {
@@ -48,16 +50,12 @@ public class DiceSelector
         return query;
     }
 
-    public IEnumerable<Dice> GetDiceLine(Vector2Int startPos, EDirection direction, bool plusReflect)
-    {
-        List<Dice> result = new List<Dice>();
-        int maxCount = Utility.GetMaxCountWithDirection(direction, _mapSize);
-        result.AddRange(GetDiceLine(startPos, direction, maxCount, plusReflect));
-        return result;
-    }
-
     public IEnumerable<Dice> GetDiceLine(Vector2Int startPos, EDirection direction, int count, bool plusReflect)
     {
+        if (count == -1)
+        {
+            count = Utility.GetMaxCountWithDirection(direction, _mapSize);
+        }
         List<Dice> result = new List<Dice>();
         Vector2Int dir = Utility.GetDirection(direction);
         Vector2Int reflectDir = Utility.GetDirection(Utility.GetReflectDirection(direction));
@@ -84,8 +82,8 @@ public class DiceSelector
         List<Dice> result = new List<Dice>();
         if (isAll)
         {
-            result.AddRange(GetDiceLine(startPos, EDirection.Up, true));
-            result.AddRange(GetDiceLine(startPos, EDirection.Right, true));
+            result.AddRange(GetDiceLine(startPos, EDirection.Up, -1, true));
+            result.AddRange(GetDiceLine(startPos, EDirection.Right, -1, true));
         }
         else
         {
@@ -101,8 +99,8 @@ public class DiceSelector
         List<Dice> result = new List<Dice>();
         if (isAll)
         {
-            result.AddRange(GetDiceLine(startPos, EDirection.LeftUp, true));
-            result.AddRange(GetDiceLine(startPos, EDirection.RightUp, true));
+            result.AddRange(GetDiceLine(startPos, EDirection.LeftUp, -1, true));
+            result.AddRange(GetDiceLine(startPos, EDirection.RightUp, -1, true));
         }
         else
         {
@@ -112,16 +110,39 @@ public class DiceSelector
         return result.ExcludeReduplication();
     }
 
-    public IEnumerable<Dice> GetDiceRectangle(Vector2Int centerPos, int size)
+    public IEnumerable<Dice> GetDiceSquare(Vector2Int centerPos, int size)
     {
         if (size % 2 == 0)
         {
             Debug.LogWarning("size가 짝수입니다. 홀수로 변환합니다.");
             size += 1;
         }
+        return GetDiceRectangle(centerPos, size, size);
+    }
+
+    public IEnumerable<Dice> GetDiceRectangle(Vector2Int centerPos, int width, int height)
+    {
+        if (width == -1)
+        {
+            width = Utility.GetMaxCountWithDirection(EDirection.Right, _mapSize);
+        }
+        else if (width % 2 == 0)
+        {
+            Debug.LogWarning("width가 짝수입니다. 홀수로 변환합니다.");
+            width += 1;
+        }
+        if (height == -1)
+        {
+            height = Utility.GetMaxCountWithDirection(EDirection.Up, _mapSize);
+        }
+        else if (height % 2 == 0)
+        {
+            Debug.LogWarning("height가 짝수입니다. 홀수로 변환합니다.");
+            height += 1;
+        }
         List<Dice> result = new List<Dice>();
-        Vector2Int startPos = centerPos + new Vector2Int(-(size / 2), size / 2);
-        Vector2Int endPos = centerPos + new Vector2Int(size / 2, -(size / 2));
+        Vector2Int startPos = centerPos + new Vector2Int(-(width / 2), height / 2);
+        Vector2Int endPos = centerPos + new Vector2Int(width / 2, -(height / 2));
         for (int x = startPos.x; x <= endPos.x; x++)
         {
             for (int y = startPos.y; y >= endPos.y; y--)
