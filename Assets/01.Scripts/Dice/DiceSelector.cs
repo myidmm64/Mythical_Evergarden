@@ -48,25 +48,62 @@ public class DiceSelector
         return query;
     }
 
-    public IEnumerable<Dice> GetDiceLine(Vector2Int startPos, EDirection direction)
+    public IEnumerable<Dice> GetDiceLine(Vector2Int startPos, EDirection direction, bool plusReflect)
     {
         List<Dice> result = new List<Dice>();
         int maxCount = Utility.GetMaxCountWithDirection(direction, _mapSize);
-        result.AddRange(GetDiceLine(startPos, direction, maxCount));
-        EDirection reflectDirection = Utility.GetReflectDirection(direction);
-        result.AddRange(GetDiceLine(startPos, reflectDirection, maxCount));
-        return result.ExcludeReduplication();
+        result.AddRange(GetDiceLine(startPos, direction, maxCount, plusReflect));
+        return result;
     }
 
-    public IEnumerable<Dice> GetDiceLine(Vector2Int startPos, EDirection direction, int count)
+    public IEnumerable<Dice> GetDiceLine(Vector2Int startPos, EDirection direction, int count, bool plusReflect)
     {
         List<Dice> result = new List<Dice>();
         Vector2Int dir = Utility.GetDirection(direction);
+        Vector2Int reflectDir = Utility.GetDirection(Utility.GetReflectDirection(direction));
         for (int i = 0; i <= count; i++)
         {
             result.Add(GetDice(startPos + dir * i));
+            if (plusReflect)
+            {
+                result.Add(GetDice(reflectDir + dir * i));
+            }
         }
-        return result;
+        return result.ExcludeReduplication();
+    }
+
+    public IEnumerable<Dice> GetCrossDices(Vector2Int startPos, int count)
+    {
+        bool isAll = count == -1;
+        List<Dice> result = new List<Dice>();
+        if (isAll)
+        {
+            result.AddRange(GetDiceLine(startPos, EDirection.Up, true));
+            result.AddRange(GetDiceLine(startPos, EDirection.Right, true));
+        }
+        else
+        {
+            result.AddRange(GetDiceLine(startPos, EDirection.Up, count, true));
+            result.AddRange(GetDiceLine(startPos, EDirection.Right, count, true));
+        }
+        return result.ExcludeReduplication();
+    }
+
+    public IEnumerable<Dice> GetXCrossDices(Vector2Int startPos, int count)
+    {
+        bool isAll = count == -1;
+        List<Dice> result = new List<Dice>();
+        if (isAll)
+        {
+            result.AddRange(GetDiceLine(startPos, EDirection.LeftUp, true));
+            result.AddRange(GetDiceLine(startPos, EDirection.RightUp, true));
+        }
+        else
+        {
+            result.AddRange(GetDiceLine(startPos, EDirection.LeftUp, count, true));
+            result.AddRange(GetDiceLine(startPos, EDirection.RightUp, count, true));
+        }
+        return result.ExcludeReduplication();
     }
 
     public IEnumerable<Dice> GetDiceRectangle(Vector2Int centerPos, int size)
