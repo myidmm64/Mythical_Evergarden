@@ -9,20 +9,20 @@ public class DiceGenerator
         string[] rows = data.diceMapStr.Split('\n');
         maxColumn = rows.Length;
         maxRow = rows[0].Length;
-        Vector2 startPos = data.diceCenterPosition + GetPaddingPos(-new Vector2(maxRow / 2, maxColumn / 2), data.dicePositionDistance);
+        Vector2 startPos = data.diceCenterPosition + GetPaddingPos(new Vector2(-maxRow / 2, maxColumn / 2), data.dicePositionDistance);
 
-        for (int i = 1; i <= maxColumn; i++)
+        for (int y = 1; y <= maxColumn; y++)
         {
-            for (int j = 1; j <= maxRow; j++)
+            for (int x = 1; x <= maxRow; x++)
             {
-                int number = rows[i - 1][j - 1] - '0';
+                int number = rows[y - 1][x - 1] - '0';
                 Dice dice = PopDice((EDiceType)number);
                 if (dice == null) continue;
 
-                Vector2Int diceKey = new Vector2Int(j, i);
+                Vector2Int diceKey = new Vector2Int(x, y);
                 dice.diceKey = diceKey;
 
-                Vector2 dicePosition = startPos + GetPaddingPos(new Vector2(j - 1, maxColumn - i), data.dicePositionDistance);
+                Vector2 dicePosition = startPos + GetPaddingPos(new Vector2(x - 1, -(y - 1)), data.dicePositionDistance);
                 dice.transform.position = dicePosition;
                 dice.transform.SetParent(parentTrm, false);
 
