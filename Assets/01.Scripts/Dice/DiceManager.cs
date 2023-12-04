@@ -26,6 +26,15 @@ public class DiceManager : MonoSingleTon<DiceManager>
         _diceSelector = new DiceSelector(_dices, mapSize);
     }
 
+    /*private void Start()
+    {
+        var testDices = GetDiceSquare(new Vector2Int(3, 3), -1);
+        foreach (var testDice in testDices)
+        {
+            Debug.Log(testDice.diceKey);
+        }
+    }*/
+
     private void GenerateMap()
     {
         _diceGenerator.GenerateDices(_dices, _diceGenerateDataSO, transform, out int maxRow, out int maxColumn);
@@ -39,6 +48,7 @@ public class DiceManager : MonoSingleTon<DiceManager>
     public IEnumerable<Dice> GetDiceLine(Vector2Int startPos, EDirection direction, int count, bool plusReflect) => _diceSelector.GetDiceLine(startPos, direction, count, plusReflect);
     public IEnumerable<Dice> GetCrossDices(Vector2Int startPos, int count) => _diceSelector.GetCrossDices(startPos, count);
     public IEnumerable<Dice> GetXCrossDices(Vector2Int startPos, int count) => _diceSelector.GetXCrossDices(startPos, count);
-    public IEnumerable<Dice> GetDiceRectangle(Vector2Int centerPos, int size) => _diceSelector.GetDiceRectangle(centerPos, size);
+    public IEnumerable<Dice> GetDiceSquare(Vector2Int centerPos, int size) => _diceSelector.GetDiceSquare(centerPos, size);
+    public IEnumerable<Dice> GetDiceRectangle(Vector2Int centerPos, int width, int height) => _diceSelector.GetDiceRectangle(centerPos, width, height);
     public IEnumerable<Dice> GetDicesWithPattern(Vector2Int centerPos, string pattern) => _diceSelector.GetDicesWithPattern(centerPos, pattern);
 }
