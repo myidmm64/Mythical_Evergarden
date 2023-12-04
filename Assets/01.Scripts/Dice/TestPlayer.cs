@@ -18,7 +18,10 @@ public class TestPlayer : MonoBehaviour, IDiceUnit
     private void Start()
     {
         _currentPos = new Vector2Int(1, 1);
-        transform.position = DiceManager.Instance.GetDice(_currentPos).transform.position;
+        if (DiceManager.Instance.TryGetDice(_currentPos, out Dice dice))
+        {
+            transform.position = dice.transform.position;
+        }
     }
 
     private void Update()
@@ -35,7 +38,10 @@ public class TestPlayer : MonoBehaviour, IDiceUnit
             transform.position = transform.position + (Vector3)(moveAmount * _moveAmount);
             _currentPos += Vector2Int.FloorToInt(moveAmount);
 
-            _dice = DiceManager.Instance.GetDice(_currentPos);
+            if (DiceManager.Instance.TryGetDice(_currentPos, out Dice dice))
+            {
+                _dice = dice;
+            }
 
             StartCoroutine(MoveDelayCoroutine());
         }

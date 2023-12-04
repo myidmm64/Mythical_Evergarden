@@ -32,7 +32,7 @@ public class DiceManager : MonoSingleTon<DiceManager>
         mapSize = new Vector2Int(maxRow, maxColumn);
     }
 
-    public Dice GetDice(Vector2Int position) => _diceSelector.GetDice(position);
+    public bool TryGetDice(Vector2Int position, out Dice dice) => _diceSelector.TryGetDice(position, out dice);
     public IEnumerable<Dice> GetSamePipDices(int dicePip) => _diceSelector.GetSamePipDices(dicePip);
     public IEnumerable<Dice> GetDiceRow(int rowNum) => _diceSelector.GetDiceRow(rowNum);
     public IEnumerable<Dice> GetDiceColumn(int columnNum) => _diceSelector.GetDiceColumn(columnNum);

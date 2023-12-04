@@ -18,10 +18,9 @@ public class DiceSelector
         _mapSize = mapSize;
     }
 
-    public Dice GetDice(Vector2Int position)
+    public bool TryGetDice(Vector2Int position, out Dice dice)
     {
-        _dices.TryGetValue(position, out var dice);
-        return dice;
+        return _dices.TryGetValue(position, out dice);
     }
 
     public IEnumerable<Dice> GetSamePipDices(int dicePip)
@@ -63,10 +62,16 @@ public class DiceSelector
         Vector2Int reflectDir = Utility.GetDirection(Utility.GetReflectDirection(direction));
         for (int i = 0; i <= count; i++)
         {
-            result.Add(GetDice(startPos + dir * i));
+            if (TryGetDice(startPos + dir * i, out Dice dice))
+            {
+                result.Add(dice);
+            }
             if (plusReflect)
             {
-                result.Add(GetDice(reflectDir + dir * i));
+                if (TryGetDice(startPos + reflectDir * i, out Dice reflectDice))
+                {
+                    result.Add(reflectDice);
+                }
             }
         }
         return result.ExcludeReduplication();
@@ -108,8 +113,24 @@ public class DiceSelector
 
     public IEnumerable<Dice> GetDiceRectangle(Vector2Int centerPos, int size)
     {
+        if (size % 2 == 0)
+        {
+            Debug.LogWarning("size가 짝수입니다. 홀수로 변환합니다.");
+            size += 1;
+        }
         List<Dice> result = new List<Dice>();
-
+        Vector2Int startPos = centerPos + new Vector2Int(-(size / 2), size / 2);
+        Vector2Int endPos = centerPos + new Vector2Int(size / 2, -(size / 2));
+        for (int x = startPos.x; x <= endPos.x; x++)
+        {
+            for (int y = startPos.y; y >= endPos.y; y--)
+            {
+                if (TryGetDice(new Vector2Int(x, y), out Dice dice))
+                {
+                    result.Add(dice);
+                }
+            }
+        }
         return result;
     }
 
