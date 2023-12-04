@@ -9,7 +9,7 @@ public class DiceGenerator
         string[] rows = data.diceMapStr.Split('\n');
         maxColumn = rows.Length;
         maxRow = rows[0].Length;
-        Vector2 startPos = data.diceCenterPosition + GetPaddingPos(new Vector2(-maxRow / 2, maxColumn / 2), data.dicePositionDistance);
+        Vector2 startPos = data.diceCenterPosition + GetPaddingPos(new Vector2(-(maxRow / 2), maxColumn / 2), data.dicePositionDistance);
 
         for (int y = 1; y <= maxColumn; y++)
         {

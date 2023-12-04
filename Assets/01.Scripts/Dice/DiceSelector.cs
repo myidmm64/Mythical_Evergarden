@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class DiceSelector
@@ -134,8 +135,28 @@ public class DiceSelector
         return result;
     }
 
-    public IEnumerable<Dice> GetDices(Vector2 center, int[,] pattern)
+    public IEnumerable<Dice> GetDicesWithPattern(Vector2Int centerPos, string pattern)
     {
-        return null;
+        List<Dice> result = new List<Dice>();
+        string[] rows = pattern.Split('\n');
+        int maxColumn = rows.Length;
+        int maxRow = rows[0].Length;
+        Vector2Int startPos = centerPos + new Vector2Int(-(maxRow / 2), -(maxColumn / 2));
+
+        for (int y = 1; y <= maxColumn; y++)
+        {
+            for (int x = 1; x <= maxRow; x++)
+            {
+                int number = rows[y - 1][x - 1] - '0';
+                if (number == 0) continue;
+
+                Vector2Int diceKey = startPos + new Vector2Int(x - 1, y - 1);
+                if (TryGetDice(diceKey, out Dice dice))
+                {
+                    result.Add(dice);
+                }
+            }
+        }
+        return result;
     }
 }

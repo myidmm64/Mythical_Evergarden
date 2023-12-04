@@ -480,6 +480,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _player: {fileID: 145991251}
+  asda: 
   _diceGenerateDataSO: {fileID: 11400000, guid: 0154de9a5057e1f479de68d781bcf84f, type: 2}
 --- !u!1 &1691252484
 GameObject:
