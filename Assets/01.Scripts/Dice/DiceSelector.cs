@@ -48,16 +48,12 @@ public class DiceSelector
         return query;
     }
 
-    public IEnumerable<Dice> GetDiceLine(Vector2Int startPos, EDirection direction, bool plusReflect)
-    {
-        List<Dice> result = new List<Dice>();
-        int maxCount = Utility.GetMaxCountWithDirection(direction, _mapSize);
-        result.AddRange(GetDiceLine(startPos, direction, maxCount, plusReflect));
-        return result;
-    }
-
     public IEnumerable<Dice> GetDiceLine(Vector2Int startPos, EDirection direction, int count, bool plusReflect)
     {
+        if (count == -1)
+        {
+            count = Utility.GetMaxCountWithDirection(direction, _mapSize);
+        }
         List<Dice> result = new List<Dice>();
         Vector2Int dir = Utility.GetDirection(direction);
         Vector2Int reflectDir = Utility.GetDirection(Utility.GetReflectDirection(direction));
@@ -84,8 +80,8 @@ public class DiceSelector
         List<Dice> result = new List<Dice>();
         if (isAll)
         {
-            result.AddRange(GetDiceLine(startPos, EDirection.Up, true));
-            result.AddRange(GetDiceLine(startPos, EDirection.Right, true));
+            result.AddRange(GetDiceLine(startPos, EDirection.Up, -1, true));
+            result.AddRange(GetDiceLine(startPos, EDirection.Right, -1, true));
         }
         else
         {
@@ -101,8 +97,8 @@ public class DiceSelector
         List<Dice> result = new List<Dice>();
         if (isAll)
         {
-            result.AddRange(GetDiceLine(startPos, EDirection.LeftUp, true));
-            result.AddRange(GetDiceLine(startPos, EDirection.RightUp, true));
+            result.AddRange(GetDiceLine(startPos, EDirection.LeftUp, -1, true));
+            result.AddRange(GetDiceLine(startPos, EDirection.RightUp, -1, true));
         }
         else
         {

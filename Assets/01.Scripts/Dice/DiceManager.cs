@@ -36,7 +36,6 @@ public class DiceManager : MonoSingleTon<DiceManager>
     public IEnumerable<Dice> GetSamePipDices(int dicePip) => _diceSelector.GetSamePipDices(dicePip);
     public IEnumerable<Dice> GetDiceRow(int rowNum) => _diceSelector.GetDiceRow(rowNum);
     public IEnumerable<Dice> GetDiceColumn(int columnNum) => _diceSelector.GetDiceColumn(columnNum);
-    public IEnumerable<Dice> GetDiceLine(Vector2Int startPos, EDirection direction, bool plusReflect) => _diceSelector.GetDiceLine(startPos, direction, plusReflect);
     public IEnumerable<Dice> GetDiceLine(Vector2Int startPos, EDirection direction, int count, bool plusReflect) => _diceSelector.GetDiceLine(startPos, direction, count, plusReflect);
     public IEnumerable<Dice> GetCrossDices(Vector2Int startPos, int count) => _diceSelector.GetCrossDices(startPos, count);
     public IEnumerable<Dice> GetXCrossDices(Vector2Int startPos, int count) => _diceSelector.GetXCrossDices(startPos, count);
