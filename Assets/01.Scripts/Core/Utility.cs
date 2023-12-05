@@ -51,4 +51,6 @@ public static class Utility
         EDirection.RightDown => EDirection.LeftUp,
         _ => EDirection.None,
     };
+
 }
+
