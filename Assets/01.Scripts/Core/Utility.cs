@@ -17,10 +17,10 @@ public static class Utility
         EDirection.Right => Vector2Int.right,
         EDirection.Up => Vector2Int.up,
         EDirection.Down => Vector2Int.down,
-        EDirection.LeftUp => Vector2Int.left + Vector2Int.down,
-        EDirection.RightUp => Vector2Int.right + Vector2Int.down,
-        EDirection.LeftDown => Vector2Int.left + Vector2Int.up,
-        EDirection.RightDown => Vector2Int.right + Vector2Int.up,
+        EDirection.LeftUp => Vector2Int.left + Vector2Int.up,
+        EDirection.RightUp => Vector2Int.right + Vector2Int.up,
+        EDirection.LeftDown => Vector2Int.left + Vector2Int.down,
+        EDirection.RightDown => Vector2Int.right + Vector2Int.down,
         _ => Vector2Int.zero,
     };
 

@@ -15,6 +15,10 @@ public class DiceManager : MonoSingleTon<DiceManager>
     private DiceSelector _diceSelector = null;
 
     public Vector2Int mapSize { get; private set; }
+    public Vector2Int mapCenter => mapSize / 2;
+
+    [TextArea]
+    public string aaa = null;
 
     [SerializeField]
     private DiceGenerateDataSO _diceGenerateDataSO = null;
@@ -28,7 +32,7 @@ public class DiceManager : MonoSingleTon<DiceManager>
 
     /*private void Start()
     {
-        var testDices = GetDiceSquare(new Vector2Int(3, 3), -1);
+        var testDices = GetDicesWithPattern(new Vector2Int(3, 3), aaa);
         foreach (var testDice in testDices)
         {
             Debug.Log(testDice.diceKey);

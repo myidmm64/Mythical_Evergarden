@@ -78,35 +78,17 @@ public class DiceSelector
 
     public IEnumerable<Dice> GetCrossDices(Vector2Int startPos, int count)
     {
-        bool isAll = count == -1;
         List<Dice> result = new List<Dice>();
-        if (isAll)
-        {
-            result.AddRange(GetDiceLine(startPos, EDirection.Up, -1, true));
-            result.AddRange(GetDiceLine(startPos, EDirection.Right, -1, true));
-        }
-        else
-        {
-            result.AddRange(GetDiceLine(startPos, EDirection.Up, count, true));
-            result.AddRange(GetDiceLine(startPos, EDirection.Right, count, true));
-        }
+        result.AddRange(GetDiceLine(startPos, EDirection.Up, count, true));
+        result.AddRange(GetDiceLine(startPos, EDirection.Right, count, true));
         return result.ExcludeReduplication();
     }
 
     public IEnumerable<Dice> GetXCrossDices(Vector2Int startPos, int count)
     {
-        bool isAll = count == -1;
         List<Dice> result = new List<Dice>();
-        if (isAll)
-        {
-            result.AddRange(GetDiceLine(startPos, EDirection.LeftUp, -1, true));
-            result.AddRange(GetDiceLine(startPos, EDirection.RightUp, -1, true));
-        }
-        else
-        {
-            result.AddRange(GetDiceLine(startPos, EDirection.LeftUp, count, true));
-            result.AddRange(GetDiceLine(startPos, EDirection.RightUp, count, true));
-        }
+        result.AddRange(GetDiceLine(startPos, EDirection.LeftUp, count, true));
+        result.AddRange(GetDiceLine(startPos, EDirection.RightUp, count, true));
         return result.ExcludeReduplication();
     }
 
@@ -141,11 +123,11 @@ public class DiceSelector
             height += 1;
         }
         List<Dice> result = new List<Dice>();
-        Vector2Int startPos = centerPos + new Vector2Int(-(width / 2), height / 2);
-        Vector2Int endPos = centerPos + new Vector2Int(width / 2, -(height / 2));
+        Vector2Int startPos = centerPos + new Vector2Int(-(width / 2), -(height / 2));
+        Vector2Int endPos = centerPos + new Vector2Int(width / 2, height / 2);
         for (int x = startPos.x; x <= endPos.x; x++)
         {
-            for (int y = startPos.y; y >= endPos.y; y--)
+            for (int y = startPos.y; y <= endPos.y; y++)
             {
                 if (TryGetDice(new Vector2Int(x, y), out Dice dice))
                 {
@@ -171,7 +153,7 @@ public class DiceSelector
                 int number = rows[y - 1][x - 1] - '0';
                 if (number == 0) continue;
 
-                Vector2Int diceKey = startPos + new Vector2Int(x - 1, y - 1);
+                Vector2Int diceKey = startPos + new Vector2Int(x - 1, maxColumn - y);
                 if (TryGetDice(diceKey, out Dice dice))
                 {
                     result.Add(dice);
