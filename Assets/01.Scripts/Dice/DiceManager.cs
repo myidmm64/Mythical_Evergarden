@@ -8,7 +8,7 @@ using Random = UnityEngine.Random;
 public class DiceManager : MonoSingleTon<DiceManager>
 {
     [SerializeField]
-    private TestPlayer _player = null;
+    private DiceGenerateDataSO _diceGenerateDataSO = null;
 
     private Dictionary<Vector2Int, Dice> _dices = new Dictionary<Vector2Int, Dice>();
     private DiceGenerator _diceGenerator = null;
@@ -17,27 +17,12 @@ public class DiceManager : MonoSingleTon<DiceManager>
     public Vector2Int mapSize { get; private set; }
     public Vector2Int mapCenter => mapSize / 2;
 
-    [TextArea]
-    public string aaa = null;
-
-    [SerializeField]
-    private DiceGenerateDataSO _diceGenerateDataSO = null;
-
     private void Awake()
     {
         _diceGenerator = new DiceGenerator();
         GenerateMap();
         _diceSelector = new DiceSelector(_dices, mapSize);
     }
-
-    /*private void Start()
-    {
-        var testDices = GetDicesWithPattern(new Vector2Int(3, 3), aaa);
-        foreach (var testDice in testDices)
-        {
-            Debug.Log(testDice.diceKey);
-        }
-    }*/
 
     private void GenerateMap()
     {
