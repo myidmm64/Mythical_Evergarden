@@ -55,11 +55,11 @@ public class TestPlayer : MonoBehaviour, IDiceUnit
         _moveable = true;
     }
 
-    public void EnterDice()
+    public void EnterDice(Dice enterdDice)
     {
     }
 
-    public void ExitDice()
+    public void ExitDice(Dice exitedDice)
     {
     }
 }
