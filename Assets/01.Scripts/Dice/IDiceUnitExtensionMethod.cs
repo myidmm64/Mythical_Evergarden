@@ -12,14 +12,14 @@ public static class IDiceUnitExtensionMethod
         {
             if (unit.myDice != null)
             {
-                unit.ExitDice();
                 unit.myDice.diceUnit = null;
+                unit.ExitDice(unit.myDice);
             }
 
-            unit.myDice = dice;
             dice.diceUnit = unit;
             unit.myPos = targetPos;
-            unit.EnterDice();
+            unit.myDice = dice;
+            unit.EnterDice(dice);
             return true;
         }
         return false;
@@ -29,8 +29,8 @@ public static class IDiceUnitExtensionMethod
     {
         if (unit.myDice != null)
         {
-            unit.ExitDice();
             unit.myDice.diceUnit = null;
+            unit.ExitDice(unit.myDice);
         }
     }
 }
