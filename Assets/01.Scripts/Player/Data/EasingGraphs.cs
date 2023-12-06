@@ -13,4 +13,9 @@ public static class EasingGraphs
     {
         return Mathf.Sin((x * Mathf.PI) / 2);
     }
+
+    public static float EaseOutCirc(float x)
+    {
+        return Mathf.Sqrt(1 - Mathf.Pow(x - 1, 2));
+    }
 }
