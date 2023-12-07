@@ -49,7 +49,10 @@ public class PlayerBase : MonoBehaviour, IDiceUnit
 
     void Move(Vector2Int direction)
     {
-        StartCoroutine(_playerMove.Move(myPos, direction, () => CheckDice(direction)));
+        if (DiceManager.Instance.TryGetDice(direction, out Dice dice))
+        {
+            StartCoroutine(_playerMove.Move(_playerMove.transform.position, dice.transform.position, () => CheckDice(direction)));
+        }
     }
 
     void CheckDice(Vector2Int direction)

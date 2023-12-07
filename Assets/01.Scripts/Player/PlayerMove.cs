@@ -13,25 +13,22 @@ public class PlayerMove : MonoBehaviour
         SetSpeed(_playerData.MoveSpeed);
     }
 
-    public IEnumerator Move(Vector2Int myPos, Vector2Int direction , Action callBack)
+    public IEnumerator Move(Vector3 myPos, Vector3 direction , Action callBack)
     {
         float time = 0;
-        Vector2 moveVec = new Vector2();
-        Vector2 targetVec = new Vector2();
-
-        while (time != 1)
+        while (true)
         {
-            time += Mathf.Clamp(Time.deltaTime * float_moveSpeed,0,1);
-            moveVec.x = myPos.x;
-            moveVec.y = myPos.y;
+            if(time == 1) 
+            {
+                callBack.Invoke();
+                yield break; 
+            }
 
-            targetVec.x = direction.x;
-            targetVec.y = direction.y;
 
-            transform.position = Vector2.Lerp(moveVec, targetVec, EasingGraphs.EaseOutCirc(time));
+            time = Mathf.Clamp(time + Time.deltaTime * float_moveSpeed, 0, 1);
+            this.transform.position = Vector3.Lerp(myPos, direction, EasingGraphs.EaseInOutCirc(time));
             yield return null;
         }
 
-        callBack.Invoke();
     }
 }
