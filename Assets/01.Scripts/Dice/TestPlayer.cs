@@ -57,6 +57,7 @@ public class TestPlayer : MonoBehaviour, IDiceUnit
                 _dice = dice;
             }
 
+            AudioManager.Instance.Play(EAudioType.DiceMatching);
             StartCoroutine(MoveDelayCoroutine());
         }
     }
