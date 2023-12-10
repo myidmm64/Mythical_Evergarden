@@ -4,7 +4,7 @@ using System.Drawing;
 using System.Linq;
 using Unity.VisualScripting;
 using UnityEngine;
-using static UnityEditor.Experimental.AssetDatabaseExperimental.AssetDatabaseCounters;
+using static UnityEditor.PlayerSettings;
 
 public class DiceSelector
 {
@@ -50,7 +50,7 @@ public class DiceSelector
         return query;
     }
 
-    public IEnumerable<Dice> GetDiceLine(Vector2Int startPos, EDirection direction, int count, bool plusReflect)
+    public IEnumerable<Dice> GetDiceLine(Vector2Int startPos, EDirection direction, int count, bool plusReflect, EDirection rotateDirection = EDirection.Up)
     {
         if (count == -1)
         {
@@ -61,13 +61,15 @@ public class DiceSelector
         Vector2Int reflectDir = Utility.GetDirection(Utility.GetReflectDirection(direction));
         for (int i = 0; i <= count; i++)
         {
-            if (TryGetDice(startPos + dir * i, out Dice dice))
+            Vector2Int diceKey = startPos + dir * i;
+            if (TryGetDice(GetRotatedDiceKey(diceKey, startPos, rotateDirection), out Dice dice))
             {
                 result.Add(dice);
             }
             if (plusReflect)
             {
-                if (TryGetDice(startPos + reflectDir * i, out Dice reflectDice))
+                Vector2Int reflectDiceKey = startPos + reflectDir * i;
+                if (TryGetDice(GetRotatedDiceKey(reflectDiceKey, startPos, rotateDirection), out Dice reflectDice))
                 {
                     result.Add(reflectDice);
                 }
@@ -102,7 +104,7 @@ public class DiceSelector
         return GetDiceRectangle(centerPos, size, size);
     }
 
-    public IEnumerable<Dice> GetDiceRectangle(Vector2Int centerPos, int width, int height)
+    public IEnumerable<Dice> GetDiceRectangle(Vector2Int centerPos, int width, int height, EDirection rotateDirection = EDirection.Up)
     {
         if (width == -1)
         {
@@ -123,25 +125,48 @@ public class DiceSelector
             height += 1;
         }
         List<Dice> result = new List<Dice>();
-        Vector2Int startPos = centerPos + new Vector2Int(-(width / 2), -(height / 2));
-        Vector2Int endPos = centerPos + new Vector2Int(width / 2, height / 2);
-        for (int x = startPos.x; x <= endPos.x; x++)
+        int startY = -(height / 2);
+        int endY = height / 2;
+        int startX = -(width / 2);
+        Vector2Int searchStartPos = new Vector2Int(startX, startY);
+        for (int y = startY; y <= endY; y++)
         {
-            for (int y = startPos.y; y <= endPos.y; y++)
+            searchStartPos.y = y;
+            result.AddRange(GetDiceLine(centerPos + searchStartPos, EDirection.Right, width, false, rotateDirection));
+        }
+        return result;
+    }
+
+    public IEnumerable<Dice> GetDicesWithPattern(Vector2Int centerPos, string pattern, EDirection rotateDirection = EDirection.Up)
+    {
+        List<Dice> result = new List<Dice>();
+        List<Vector2Int> diceKeys = GetStringToDiceKeys(centerPos, pattern);
+        foreach (var diceKey in diceKeys)
+        {
+            if (TryGetDice(GetRotatedDiceKey(diceKey, centerPos, rotateDirection), out Dice dice))
             {
-                if (TryGetDice(new Vector2Int(x, y), out Dice dice))
-                {
-                    result.Add(dice);
-                }
+                result.Add(dice);
             }
         }
         return result;
     }
 
-    public IEnumerable<Dice> GetDicesWithPattern(Vector2Int centerPos, string pattern)
+    private Vector2Int GetRotatedDiceKey(Vector2Int targetKey, Vector2Int startkey, EDirection rotateDirection)
     {
-        List<Dice> result = new List<Dice>();
-        string[] rows = pattern.Split('\n');
+        if (rotateDirection == EDirection.Up) return targetKey;
+        Vector2 result = Quaternion.AngleAxis(Utility.GetZRotate(rotateDirection), Vector3.forward) * ((Vector2)(targetKey - startkey));
+        return startkey + Vector2Int.RoundToInt(result);
+    }
+
+    /// <summary>
+    /// string을 diceKey 집합으로 변환합니다
+    /// </summary>
+    /// <param name="targetString"></param>
+    /// <returns></returns>
+    public List<Vector2Int> GetStringToDiceKeys(Vector2Int centerPos, string targetString)
+    {
+        List<Vector2Int> result = new List<Vector2Int>();
+        string[] rows = targetString.Split('\n');
         int maxColumn = rows.Length;
         int maxRow = rows[0].Length;
         Vector2Int startPos = centerPos + new Vector2Int(-(maxRow / 2), -(maxColumn / 2));
@@ -154,12 +179,10 @@ public class DiceSelector
                 if (number == 0) continue;
 
                 Vector2Int diceKey = startPos + new Vector2Int(x - 1, maxColumn - y);
-                if (TryGetDice(diceKey, out Dice dice))
-                {
-                    result.Add(dice);
-                }
+                result.Add(diceKey);
             }
         }
+
         return result;
     }
 }

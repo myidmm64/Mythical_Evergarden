@@ -12,14 +12,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 68df84e3103fb75489ebd9dca40fee36, type: 3}
   m_Name: TestGenerateData
   m_EditorClassIdentifier: 
-  diceMapStr: '11111
+  diceMapStr: '1111111
 
-    11111
+    1111111
 
-    11111
+    1111111
 
-    11111
+    1111111
 
-    11111'
+    1111111
+
+    1111111
+
+    1111111'
   diceCenterPosition: {x: 0, y: 0}
   dicePositionDistance: {x: 1, y: 1}

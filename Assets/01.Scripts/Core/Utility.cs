@@ -4,12 +4,6 @@ using UnityEngine;
 
 public static class Utility
 {
-    public static string TextAreaToDicePosition(string text)
-    {
-        // TODO : text를 dice 행열에 맞도록 변경
-        return null;
-    }
-
     public static Vector2Int GetDirection(EDirection direction) => direction switch
     {
         EDirection.None => Vector2Int.zero,
@@ -52,5 +46,17 @@ public static class Utility
         _ => EDirection.None,
     };
 
+    public static float GetZRotate(EDirection direction) => direction switch
+    {
+        EDirection.None => 0f,
+        EDirection.Left => 90f,
+        EDirection.Right => -90f,
+        EDirection.Up => 0f,
+        EDirection.Down => 180f,
+        EDirection.LeftUp => 45f,
+        EDirection.RightUp => -45f,
+        EDirection.LeftDown => 135f,
+        EDirection.RightDown => -135f,
+        _ => 0f,
+    };
 }
-

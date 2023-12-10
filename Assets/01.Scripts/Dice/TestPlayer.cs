@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UIElements;
+using static UnityEditor.PlayerSettings;
 
 public class TestPlayer : MonoBehaviour, IDiceUnit
 {
@@ -18,10 +20,21 @@ public class TestPlayer : MonoBehaviour, IDiceUnit
 
     private void Start()
     {
-        myPos = new Vector2Int(1, 1);
-        if (DiceManager.Instance.TryGetDice(myPos, out Dice dice))
+        if (this.ChangeMyDice(DiceManager.Instance.mapCenter))
         {
-            transform.position = dice.transform.position;
+            transform.position = myDice.transform.position;
+        }
+        var normalPattern = DiceManager.Instance.GetDicesWithPattern(myPos, "111\n000\n000");
+        var rotatedPattern = DiceManager.Instance.GetDicesWithPattern(myPos, "111\n000\n000", EDirection.Left);
+        foreach(var normal in normalPattern)
+        {
+            Debug.Log("normal : " + normal.diceKey);
+            Debug.DrawLine(transform.position, normal.transform.position, Color.red, 60f);
+        }
+        foreach (var rotated in rotatedPattern)
+        {
+            Debug.Log("rotated : " + rotated.diceKey);
+            Debug.DrawLine(transform.position, rotated.transform.position, Color.blue, 60f);
         }
     }
 
@@ -44,6 +57,7 @@ public class TestPlayer : MonoBehaviour, IDiceUnit
                 _dice = dice;
             }
 
+            AudioManager.Instance.Play(EAudioType.DiceMatching);
             StartCoroutine(MoveDelayCoroutine());
         }
     }
@@ -55,11 +69,11 @@ public class TestPlayer : MonoBehaviour, IDiceUnit
         _moveable = true;
     }
 
-    public void EnterDice()
+    public void EnterDice(Dice enterdDice)
     {
     }
 
-    public void ExitDice()
+    public void ExitDice(Dice exitedDice)
     {
     }
 }
