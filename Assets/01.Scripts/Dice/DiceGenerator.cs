@@ -19,7 +19,7 @@ public class DiceGenerator
                 Dice dice = PopDice((EDiceType)number);
                 if (dice == null) continue;
 
-                Vector2Int diceKey = new Vector2Int(x, y);
+                Vector2Int diceKey = new Vector2Int(x, maxColumn - y + 1);
                 dice.diceKey = diceKey;
 
                 Vector2 dicePosition = startPos + GetPaddingPos(new Vector2(x - 1, -(y - 1)), data.dicePositionDistance);

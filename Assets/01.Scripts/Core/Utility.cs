@@ -4,12 +4,6 @@ using UnityEngine;
 
 public static class Utility
 {
-    public static string TextAreaToDicePosition(string text)
-    {
-        // TODO : text를 dice 행열에 맞도록 변경
-        return null;
-    }
-
     public static Vector2Int GetDirection(EDirection direction) => direction switch
     {
         EDirection.None => Vector2Int.zero,
@@ -17,10 +11,10 @@ public static class Utility
         EDirection.Right => Vector2Int.right,
         EDirection.Up => Vector2Int.up,
         EDirection.Down => Vector2Int.down,
-        EDirection.LeftUp => Vector2Int.left + Vector2Int.down,
-        EDirection.RightUp => Vector2Int.right + Vector2Int.down,
-        EDirection.LeftDown => Vector2Int.left + Vector2Int.up,
-        EDirection.RightDown => Vector2Int.right + Vector2Int.up,
+        EDirection.LeftUp => Vector2Int.left + Vector2Int.up,
+        EDirection.RightUp => Vector2Int.right + Vector2Int.up,
+        EDirection.LeftDown => Vector2Int.left + Vector2Int.down,
+        EDirection.RightDown => Vector2Int.right + Vector2Int.down,
         _ => Vector2Int.zero,
     };
 
@@ -50,5 +44,19 @@ public static class Utility
         EDirection.LeftDown => EDirection.RightUp,
         EDirection.RightDown => EDirection.LeftUp,
         _ => EDirection.None,
+    };
+
+    public static float GetZRotate(EDirection direction) => direction switch
+    {
+        EDirection.None => 0f,
+        EDirection.Left => 90f,
+        EDirection.Right => -90f,
+        EDirection.Up => 0f,
+        EDirection.Down => 180f,
+        EDirection.LeftUp => 45f,
+        EDirection.RightUp => -45f,
+        EDirection.LeftDown => 135f,
+        EDirection.RightDown => -135f,
+        _ => 0f,
     };
 }

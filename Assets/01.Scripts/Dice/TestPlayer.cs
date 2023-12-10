@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UIElements;
+using static UnityEditor.PlayerSettings;
 
 public class TestPlayer : MonoBehaviour, IDiceUnit
 {
@@ -13,14 +15,26 @@ public class TestPlayer : MonoBehaviour, IDiceUnit
     private float _moveDelay = 0.5f;
     private bool _moveable = true;
 
-    private Vector2Int _currentPos = Vector2Int.zero;
+    public Dice myDice { get; set; }
+    public Vector2Int myPos { get; set; }
 
     private void Start()
     {
-        _currentPos = new Vector2Int(1, 1);
-        if (DiceManager.Instance.TryGetDice(_currentPos, out Dice dice))
+        if (this.ChangeMyDice(DiceManager.Instance.mapCenter))
         {
-            transform.position = dice.transform.position;
+            transform.position = myDice.transform.position;
+        }
+        var normalPattern = DiceManager.Instance.GetDicesWithPattern(myPos, "111\n000\n000");
+        var rotatedPattern = DiceManager.Instance.GetDicesWithPattern(myPos, "111\n000\n000", EDirection.Left);
+        foreach(var normal in normalPattern)
+        {
+            Debug.Log("normal : " + normal.diceKey);
+            Debug.DrawLine(transform.position, normal.transform.position, Color.red, 60f);
+        }
+        foreach (var rotated in rotatedPattern)
+        {
+            Debug.Log("rotated : " + rotated.diceKey);
+            Debug.DrawLine(transform.position, rotated.transform.position, Color.blue, 60f);
         }
     }
 
@@ -36,13 +50,14 @@ public class TestPlayer : MonoBehaviour, IDiceUnit
         if (moveAmount.sqrMagnitude > 0)
         {
             transform.position = transform.position + (Vector3)(moveAmount * _moveAmount);
-            _currentPos += Vector2Int.FloorToInt(moveAmount);
+            myPos += Vector2Int.FloorToInt(moveAmount);
 
-            if (DiceManager.Instance.TryGetDice(_currentPos, out Dice dice))
+            if (DiceManager.Instance.TryGetDice(myPos, out Dice dice))
             {
                 _dice = dice;
             }
 
+            AudioManager.Instance.Play(EAudioType.DiceMatching);
             StartCoroutine(MoveDelayCoroutine());
         }
     }
@@ -54,11 +69,11 @@ public class TestPlayer : MonoBehaviour, IDiceUnit
         _moveable = true;
     }
 
-    public void EnterDice()
+    public void EnterDice(Dice enterdDice)
     {
     }
 
-    public void ExitDice()
+    public void ExitDice(Dice exitedDice)
     {
     }
 }

@@ -10,7 +10,7 @@ public class Dice : PoolableObject
 
     private int _dicePip = 0; // ÁÖ»çÀ§ ´«
     public int dicePip { get => _dicePip; set { _dicePip = value; RollAnimation(); } }
-    public Vector2 diceKey = Vector2.zero;
+    public Vector2Int diceKey = Vector2Int.zero;
 
     private void Start()
     {
