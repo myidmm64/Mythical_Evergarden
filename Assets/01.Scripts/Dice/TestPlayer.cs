@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UIElements;
 using static UnityEditor.PlayerSettings;
 
 public class TestPlayer : MonoBehaviour, IDiceUnit
@@ -23,16 +24,17 @@ public class TestPlayer : MonoBehaviour, IDiceUnit
         {
             transform.position = myDice.transform.position;
         }
-        var aaa = DiceManager.Instance.GetDicesWithPattern(myPos, "111\n000\n000");
-        foreach (var a in aaa)
+        var normalPattern = DiceManager.Instance.GetDicesWithPattern(myPos, "111\n000\n000");
+        var rotatedPattern = DiceManager.Instance.GetDicesWithPattern(myPos, "111\n000\n000", EDirection.Left);
+        foreach(var normal in normalPattern)
         {
-            Vector2Int rotated = DiceManager.Instance.GetRotatedDiceKey(a.diceKey, myPos, EDirection.LeftUp);
-            Debug.Log(a.diceKey - myPos);
-            Debug.Log(rotated);
-            DiceManager.Instance.TryGetDice(myPos + rotated, out var rotatedDice);
-            if (rotatedDice != null)
-                Debug.DrawLine(transform.position, rotatedDice.transform.position, Color.red, 60f);
-            Debug.DrawLine(transform.position, a.transform.position, Color.blue, 60f);
+            Debug.Log("normal : " + normal.diceKey);
+            Debug.DrawLine(transform.position, normal.transform.position, Color.red, 60f);
+        }
+        foreach (var rotated in rotatedPattern)
+        {
+            Debug.Log("rotated : " + rotated.diceKey);
+            Debug.DrawLine(transform.position, rotated.transform.position, Color.blue, 60f);
         }
     }
 

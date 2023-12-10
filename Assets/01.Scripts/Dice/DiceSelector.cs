@@ -50,7 +50,7 @@ public class DiceSelector
         return query;
     }
 
-    public IEnumerable<Dice> GetDiceLine(Vector2Int startPos, EDirection direction, int count, bool plusReflect)
+    public IEnumerable<Dice> GetDiceLine(Vector2Int startPos, EDirection direction, int count, bool plusReflect, EDirection rotateDirection = EDirection.Up)
     {
         if (count == -1)
         {
@@ -61,13 +61,15 @@ public class DiceSelector
         Vector2Int reflectDir = Utility.GetDirection(Utility.GetReflectDirection(direction));
         for (int i = 0; i <= count; i++)
         {
-            if (TryGetDice(startPos + dir * i, out Dice dice))
+            Vector2Int diceKey = startPos + dir * i;
+            if (TryGetDice(GetRotatedDiceKey(diceKey, startPos, rotateDirection), out Dice dice))
             {
                 result.Add(dice);
             }
             if (plusReflect)
             {
-                if (TryGetDice(startPos + reflectDir * i, out Dice reflectDice))
+                Vector2Int reflectDiceKey = startPos + reflectDir * i;
+                if (TryGetDice(GetRotatedDiceKey(reflectDiceKey, startPos, rotateDirection), out Dice reflectDice))
                 {
                     result.Add(reflectDice);
                 }
@@ -102,7 +104,7 @@ public class DiceSelector
         return GetDiceRectangle(centerPos, size, size);
     }
 
-    public IEnumerable<Dice> GetDiceRectangle(Vector2Int centerPos, int width, int height)
+    public IEnumerable<Dice> GetDiceRectangle(Vector2Int centerPos, int width, int height, EDirection rotateDirection = EDirection.Up)
     {
         if (width == -1)
         {
@@ -130,18 +132,18 @@ public class DiceSelector
         for (int y = startY; y <= endY; y++)
         {
             searchStartPos.y = y;
-            result.AddRange(GetDiceLine(centerPos + searchStartPos, EDirection.Right, width, false));
+            result.AddRange(GetDiceLine(centerPos + searchStartPos, EDirection.Right, width, false, rotateDirection));
         }
         return result;
     }
 
-    public IEnumerable<Dice> GetDicesWithPattern(Vector2Int centerPos, string pattern)
+    public IEnumerable<Dice> GetDicesWithPattern(Vector2Int centerPos, string pattern, EDirection rotateDirection = EDirection.Up)
     {
         List<Dice> result = new List<Dice>();
         List<Vector2Int> diceKeys = GetStringToDiceKeys(centerPos, pattern);
         foreach (var diceKey in diceKeys)
         {
-            if (TryGetDice(diceKey, out Dice dice))
+            if (TryGetDice(GetRotatedDiceKey(diceKey, centerPos, rotateDirection), out Dice dice))
             {
                 result.Add(dice);
             }
@@ -149,11 +151,11 @@ public class DiceSelector
         return result;
     }
 
-    public Vector2Int GetRotatedDiceKey(Vector2Int targetKey, Vector2Int startkey, EDirection rotateDirection)
+    private Vector2Int GetRotatedDiceKey(Vector2Int targetKey, Vector2Int startkey, EDirection rotateDirection)
     {
-        if (rotateDirection == EDirection.Up) return targetKey - startkey;
+        if (rotateDirection == EDirection.Up) return targetKey;
         Vector2 result = Quaternion.AngleAxis(Utility.GetZRotate(rotateDirection), Vector3.forward) * ((Vector2)(targetKey - startkey));
-        return Vector2Int.RoundToInt(result - startkey);
+        return startkey + Vector2Int.RoundToInt(result);
     }
 
     /// <summary>

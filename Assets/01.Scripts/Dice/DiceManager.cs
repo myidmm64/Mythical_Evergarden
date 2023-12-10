@@ -34,12 +34,10 @@ public class DiceManager : MonoSingleTon<DiceManager>
     public IEnumerable<Dice> GetSamePipDices(int dicePip) => _diceSelector.GetSamePipDices(dicePip);
     public IEnumerable<Dice> GetDiceRow(int rowNum) => _diceSelector.GetDiceRow(rowNum);
     public IEnumerable<Dice> GetDiceColumn(int columnNum) => _diceSelector.GetDiceColumn(columnNum);
-    public IEnumerable<Dice> GetDiceLine(Vector2Int startPos, EDirection direction, int count, bool plusReflect) => _diceSelector.GetDiceLine(startPos, direction, count, plusReflect);
+    public IEnumerable<Dice> GetDiceLine(Vector2Int startPos, EDirection direction, int count, bool plusReflect, EDirection rotateDirection = EDirection.Up) => _diceSelector.GetDiceLine(startPos, direction, count, plusReflect, rotateDirection);
     public IEnumerable<Dice> GetCrossDices(Vector2Int startPos, int count) => _diceSelector.GetCrossDices(startPos, count);
     public IEnumerable<Dice> GetXCrossDices(Vector2Int startPos, int count) => _diceSelector.GetXCrossDices(startPos, count);
     public IEnumerable<Dice> GetDiceSquare(Vector2Int centerPos, int size) => _diceSelector.GetDiceSquare(centerPos, size);
-    public IEnumerable<Dice> GetDiceRectangle(Vector2Int centerPos, int width, int height) => _diceSelector.GetDiceRectangle(centerPos, width, height);
-    public IEnumerable<Dice> GetDicesWithPattern(Vector2Int centerPos, string pattern) => _diceSelector.GetDicesWithPattern(centerPos, pattern);
-
-    public Vector2Int GetRotatedDiceKey(Vector2Int targetKey, Vector2Int targetKex, EDirection rotateDirection) => _diceSelector.GetRotatedDiceKey(targetKey, targetKex, rotateDirection);
+    public IEnumerable<Dice> GetDiceRectangle(Vector2Int centerPos, int width, int height, EDirection rotateDirection = EDirection.Up) => _diceSelector.GetDiceRectangle(centerPos, width, height, rotateDirection);
+    public IEnumerable<Dice> GetDicesWithPattern(Vector2Int centerPos, string pattern, EDirection rotateDirection = EDirection.Up) => _diceSelector.GetDicesWithPattern(centerPos, pattern, rotateDirection);
 }
