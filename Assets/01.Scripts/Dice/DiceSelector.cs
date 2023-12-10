@@ -4,6 +4,7 @@ using System.Drawing;
 using System.Linq;
 using Unity.VisualScripting;
 using UnityEngine;
+using static UnityEditor.PlayerSettings;
 
 public class DiceSelector
 {
@@ -18,16 +19,6 @@ public class DiceSelector
         }
         _dices = dices;
         _mapSize = mapSize;
-    }
-
-    /// <summary>
-    /// string을 diceKey 집합으로 변환합니다
-    /// </summary>
-    /// <param name="targetString"></param>
-    /// <returns></returns>
-    public List<Vector2Int> GetStringToDiceKeys(string targetString)
-    {
-        return null;
     }
 
     public bool TryGetDice(Vector2Int position, out Dice dice)
@@ -147,7 +138,33 @@ public class DiceSelector
     public IEnumerable<Dice> GetDicesWithPattern(Vector2Int centerPos, string pattern)
     {
         List<Dice> result = new List<Dice>();
-        string[] rows = pattern.Split('\n');
+        List<Vector2Int> diceKeys = GetStringToDiceKeys(centerPos, pattern);
+        foreach (var diceKey in diceKeys)
+        {
+            if (TryGetDice(diceKey, out Dice dice))
+            {
+                result.Add(dice);
+            }
+        }
+        return result;
+    }
+
+    public Vector2Int GetRotatedDiceKey(Vector2Int targetKey, Vector2Int startkey, EDirection rotateDirection)
+    {
+        if (rotateDirection == EDirection.Up) return targetKey - startkey;
+        Vector2 result = Quaternion.AngleAxis(Utility.GetZRotate(rotateDirection), Vector3.forward) * ((Vector2)(targetKey - startkey));
+        return Vector2Int.RoundToInt(result - startkey);
+    }
+
+    /// <summary>
+    /// string을 diceKey 집합으로 변환합니다
+    /// </summary>
+    /// <param name="targetString"></param>
+    /// <returns></returns>
+    public List<Vector2Int> GetStringToDiceKeys(Vector2Int centerPos, string targetString)
+    {
+        List<Vector2Int> result = new List<Vector2Int>();
+        string[] rows = targetString.Split('\n');
         int maxColumn = rows.Length;
         int maxRow = rows[0].Length;
         Vector2Int startPos = centerPos + new Vector2Int(-(maxRow / 2), -(maxColumn / 2));
@@ -160,12 +177,10 @@ public class DiceSelector
                 if (number == 0) continue;
 
                 Vector2Int diceKey = startPos + new Vector2Int(x - 1, maxColumn - y);
-                if (TryGetDice(diceKey, out Dice dice))
-                {
-                    result.Add(dice);
-                }
+                result.Add(diceKey);
             }
         }
+
         return result;
     }
 }

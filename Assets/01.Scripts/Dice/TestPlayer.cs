@@ -17,23 +17,23 @@ public class TestPlayer : MonoBehaviour, IDiceUnit
     public Dice myDice { get; set; }
     public Vector2Int myPos { get; set; }
 
-    private Vector3 rotated = Vector3.zero;
-
     private void Start()
     {
-        myPos = new Vector2Int(1, 1);
-        if (DiceManager.Instance.TryGetDice(myPos, out Dice dice))
+        if (this.ChangeMyDice(DiceManager.Instance.mapCenter))
         {
-            transform.position = dice.transform.position;
+            transform.position = myDice.transform.position;
         }
-
-        myPos = new Vector2Int(1, 2);
-        rotated = Quaternion.AngleAxis(90f, Vector3.forward) * new Vector2(myPos.x, myPos.y);
-        Debug.Log(rotated);
-        Debug.Log(Quaternion.AngleAxis(45f, Vector3.forward) * new Vector2(myPos.x, myPos.y));
-        Debug.DrawLine(transform.position, transform.position + rotated, Color.red, 60f);
-        Debug.DrawLine(transform.position, transform.position + Quaternion.AngleAxis(45f, Vector3.forward) * new Vector2(myPos.x, myPos.y), Color.blue, 60f);
-        Debug.DrawLine(transform.position, transform.position + new Vector3(myPos.x, myPos.y), Color.green, 60f);
+        var aaa = DiceManager.Instance.GetDicesWithPattern(myPos, "111\n000\n000");
+        foreach (var a in aaa)
+        {
+            Vector2Int rotated = DiceManager.Instance.GetRotatedDiceKey(a.diceKey, myPos, EDirection.LeftUp);
+            Debug.Log(a.diceKey - myPos);
+            Debug.Log(rotated);
+            DiceManager.Instance.TryGetDice(myPos + rotated, out var rotatedDice);
+            if (rotatedDice != null)
+                Debug.DrawLine(transform.position, rotatedDice.transform.position, Color.red, 60f);
+            Debug.DrawLine(transform.position, a.transform.position, Color.blue, 60f);
+        }
     }
 
     private void Update()

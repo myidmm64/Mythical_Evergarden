@@ -15,7 +15,7 @@ public class DiceManager : MonoSingleTon<DiceManager>
     private DiceSelector _diceSelector = null;
 
     public Vector2Int mapSize { get; private set; }
-    public Vector2Int mapCenter => mapSize / 2;
+    public Vector2Int mapCenter => new Vector2Int(mapSize.x / 2 + 1, mapSize.y / 2 + 1);
 
     private void Awake()
     {
@@ -40,4 +40,6 @@ public class DiceManager : MonoSingleTon<DiceManager>
     public IEnumerable<Dice> GetDiceSquare(Vector2Int centerPos, int size) => _diceSelector.GetDiceSquare(centerPos, size);
     public IEnumerable<Dice> GetDiceRectangle(Vector2Int centerPos, int width, int height) => _diceSelector.GetDiceRectangle(centerPos, width, height);
     public IEnumerable<Dice> GetDicesWithPattern(Vector2Int centerPos, string pattern) => _diceSelector.GetDicesWithPattern(centerPos, pattern);
+
+    public Vector2Int GetRotatedDiceKey(Vector2Int targetKey, Vector2Int targetKex, EDirection rotateDirection) => _diceSelector.GetRotatedDiceKey(targetKey, targetKex, rotateDirection);
 }
