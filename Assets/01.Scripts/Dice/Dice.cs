@@ -1,14 +1,22 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using BehaviorDesigner.Runtime;
 
-// ³ªÁß¿¡ abstract·Î ¸¸µé °Í,
+[System.Serializable]
+public class SharedDice : SharedVariable<Dice>
+{
+    public static implicit operator SharedDice(Dice value) { return new SharedDice { Value = value }; }
+}
+
+// ï¿½ï¿½ï¿½ß¿ï¿½ abstractï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½,
+[System.Serializable]
 public class Dice : PoolableObject
 {
-    public IDiceUnit diceUnit = null; // ÇöÀç ÁÖ»çÀ§¿¡ ÀÖ´Â ¿ÀºêÁ§Æ®
+    public IDiceUnit diceUnit = null; // ï¿½ï¿½ï¿½ï¿½ ï¿½Ö»ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ö´ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ®
     public bool Moveable => diceUnit != null;
 
-    private int _dicePip = 0; // ÁÖ»çÀ§ ´«
+    private int _dicePip = 0; // ï¿½Ö»ï¿½ï¿½ï¿½ ï¿½ï¿½
     public int dicePip { get => _dicePip; set { _dicePip = value; RollAnimation(); } }
     public Vector2Int diceKey = Vector2Int.zero;
 
