@@ -20,6 +20,16 @@ public class DiceSelector
         _mapSize = mapSize;
     }
 
+    /// <summary>
+    /// string을 diceKey 집합으로 변환합니다
+    /// </summary>
+    /// <param name="targetString"></param>
+    /// <returns></returns>
+    public List<Vector2Int> GetStringToDiceKeys(string targetString)
+    {
+        return null;
+    }
+
     public bool TryGetDice(Vector2Int position, out Dice dice)
     {
         return _dices.TryGetValue(position, out dice);
@@ -122,17 +132,14 @@ public class DiceSelector
             height += 1;
         }
         List<Dice> result = new List<Dice>();
-        Vector2Int startPos = centerPos + new Vector2Int(-(width / 2), -(height / 2));
-        Vector2Int endPos = centerPos + new Vector2Int(width / 2, height / 2);
-        for (int x = startPos.x; x <= endPos.x; x++)
+        int startY = -(height / 2);
+        int endY = height / 2;
+        int startX = -(width / 2);
+        Vector2Int searchStartPos = new Vector2Int(startX, startY);
+        for (int y = startY; y <= endY; y++)
         {
-            for (int y = startPos.y; y <= endPos.y; y++)
-            {
-                if (TryGetDice(new Vector2Int(x, y), out Dice dice))
-                {
-                    result.Add(dice);
-                }
-            }
+            searchStartPos.y = y;
+            result.AddRange(GetDiceLine(centerPos + searchStartPos, EDirection.Right, width, false));
         }
         return result;
     }

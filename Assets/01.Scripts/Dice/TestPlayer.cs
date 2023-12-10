@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static UnityEditor.PlayerSettings;
 
 public class TestPlayer : MonoBehaviour, IDiceUnit
 {
@@ -16,6 +17,8 @@ public class TestPlayer : MonoBehaviour, IDiceUnit
     public Dice myDice { get; set; }
     public Vector2Int myPos { get; set; }
 
+    private Vector3 rotated = Vector3.zero;
+
     private void Start()
     {
         myPos = new Vector2Int(1, 1);
@@ -23,6 +26,14 @@ public class TestPlayer : MonoBehaviour, IDiceUnit
         {
             transform.position = dice.transform.position;
         }
+
+        myPos = new Vector2Int(1, 2);
+        rotated = Quaternion.AngleAxis(90f, Vector3.forward) * new Vector2(myPos.x, myPos.y);
+        Debug.Log(rotated);
+        Debug.Log(Quaternion.AngleAxis(45f, Vector3.forward) * new Vector2(myPos.x, myPos.y));
+        Debug.DrawLine(transform.position, transform.position + rotated, Color.red, 60f);
+        Debug.DrawLine(transform.position, transform.position + Quaternion.AngleAxis(45f, Vector3.forward) * new Vector2(myPos.x, myPos.y), Color.blue, 60f);
+        Debug.DrawLine(transform.position, transform.position + new Vector3(myPos.x, myPos.y), Color.green, 60f);
     }
 
     private void Update()

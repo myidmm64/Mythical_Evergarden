@@ -45,4 +45,18 @@ public static class Utility
         EDirection.RightDown => EDirection.LeftUp,
         _ => EDirection.None,
     };
+
+    public static float GetZRotate(EDirection direction) => direction switch
+    {
+        EDirection.None => 0f,
+        EDirection.Left => 90f,
+        EDirection.Right => -90f,
+        EDirection.Up => 0f,
+        EDirection.Down => 180f,
+        EDirection.LeftUp => 45f,
+        EDirection.RightUp => -45f,
+        EDirection.LeftDown => 135f,
+        EDirection.RightDown => -135f,
+        _ => 0f,
+    };
 }

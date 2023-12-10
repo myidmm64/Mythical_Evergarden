@@ -4,6 +4,12 @@ using UnityEngine;
 
 public static class IDiceUnitExtensionMethod
 {
+    /// <summary>
+    /// targetPos에 Dice가 있다면 코드 상으로 이동시킵니다.
+    /// </summary>
+    /// <param name="unit"></param>
+    /// <param name="targetPos"></param>
+    /// <returns></returns>
     public static bool ChangeMyDice(this IDiceUnit unit, Vector2Int targetPos)
     {
         if (DiceManager.Instance == null) return false;
@@ -25,6 +31,10 @@ public static class IDiceUnitExtensionMethod
         return false;
     }
 
+    /// <summary>
+    /// myDice가 있으면 코드 상으로 해제시킵니다.
+    /// </summary>
+    /// <param name="unit"></param>
     public static void ClearMyDice(this IDiceUnit unit)
     {
         if (unit.myDice != null)
