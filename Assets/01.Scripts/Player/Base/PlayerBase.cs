@@ -1,5 +1,7 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using UnityEngine;
 
 public class PlayerBase : MonoBehaviour, IDiceUnit
@@ -11,34 +13,36 @@ public class PlayerBase : MonoBehaviour, IDiceUnit
 
     private PlayerMove _playerMove;
     private PlayerInput _playerInput;
+    private PlayerAttack _playerAttack;
 
     public Dice myDice { get; set; }
     public Vector2Int myPos { get; set; }
 
-    public void EnterDice()
+    public void EnterDice(Dice EnterDice)
     {
 
     }
 
-    public void ExitDice()
+    public void ExitDice(Dice ExitDice)
     {
     }
 
     void Awake()
     {
         _playerMove = GetComponent<PlayerMove>();
+        _playerAttack = GetComponent<PlayerAttack>();
         _playerMove?.InitData(playerData);
         _playerInput = new PlayerInput();
     }
 
     void Start()
     {
-        SetKeys();
+        if(InputManager.Instance != null)
+        {
+            KeySetting();
+        }
 
-        InputManager.Instance.SetAction(InputKeyTypes.MoveUp, () => Move(myPos + Utility.GetDirection(EDirection.Up)));
-        InputManager.Instance.SetAction(InputKeyTypes.MoveDown, () => Move(myPos + Utility.GetDirection(EDirection.Down)));
-        InputManager.Instance.SetAction(InputKeyTypes.MoveLeft, () => Move(myPos + Utility.GetDirection(EDirection.Left)));
-        InputManager.Instance.SetAction(InputKeyTypes.MoveRight, () => Move(myPos + Utility.GetDirection(EDirection.Right)));
+        BattleManager.Instance.AddPlayerUnit(this);
 
         myPos = new Vector2Int(1, 1);
         if (DiceManager.Instance.TryGetDice(myPos, out Dice dice))
@@ -47,35 +51,44 @@ public class PlayerBase : MonoBehaviour, IDiceUnit
         }
     }
 
+    private async void KeySetting()
+    {
+        var task = Task.Run(()=>_playerInput.SetKey());
+        await task;
+        SetActions();
+    }
+
+    private void SetActions()
+    {
+        _playerInput.SetMoveActions(InputKeyTypes.MoveUp, () => Move(myPos + Utility.GetDirection(EDirection.Up)));
+        _playerInput.SetMoveActions(InputKeyTypes.MoveDown, () => Move(myPos + Utility.GetDirection(EDirection.Down)));
+        _playerInput.SetMoveActions(InputKeyTypes.MoveLeft, () => Move(myPos + Utility.GetDirection(EDirection.Left)));
+        _playerInput.SetMoveActions(InputKeyTypes.MoveRight, () => Move(myPos + Utility.GetDirection(EDirection.Right)));
+
+        _playerInput.SetAttackAction(InputKeyTypes.Attack_Default, Attack);
+        _playerInput.SetAttackAction(InputKeyTypes.Skill, () => { });
+        _playerInput.SetAttackAction(InputKeyTypes.Attack_Counter, () => { });
+    }
+
+
     void Move(Vector2Int direction)
     {
-        if (DiceManager.Instance.TryGetDice(direction, out Dice dice))
-        {
-            StartCoroutine(_playerMove.Move(_playerMove.transform.position, dice.transform.position, () => CheckDice(direction)));
-        }
+        StartCoroutine(_playerMove.Move(direction, myPos, ()=> CheckDice(direction)));
+    }
+
+    void Attack()
+    {
+        _playerAttack.StartAttack(myPos);
     }
 
     void CheckDice(Vector2Int direction)
     {
         myPos = direction;
+        Debug.Log(myPos);
         if (DiceManager.Instance.TryGetDice(myPos, out Dice dice))
         {
             _dice = dice;
         }
     }
 
-    void SetKeys()
-    {
-        InputManager.Instance.SetKeyCode(InputKeyTypes.MoveUp, KeyCode.UpArrow);
-        InputManager.Instance.SetKeyCode(InputKeyTypes.MoveDown, KeyCode.DownArrow);
-        InputManager.Instance.SetKeyCode(InputKeyTypes.MoveLeft, KeyCode.LeftArrow);
-        InputManager.Instance.SetKeyCode(InputKeyTypes.MoveRight, KeyCode.RightArrow);
-
-        InputManager.Instance.SetKeyCode(InputKeyTypes.MoveUp, KeyCode.W);
-        InputManager.Instance.SetKeyCode(InputKeyTypes.MoveDown, KeyCode.S);
-        InputManager.Instance.SetKeyCode(InputKeyTypes.MoveLeft, KeyCode.A);
-        InputManager.Instance.SetKeyCode(InputKeyTypes.MoveRight, KeyCode.D);
-
-        _playerInput.InitAction();
-    }
 }

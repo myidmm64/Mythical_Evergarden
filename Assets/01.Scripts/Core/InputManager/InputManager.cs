@@ -43,5 +43,8 @@ public enum InputKeyTypes
     MoveDown, 
     MoveLeft, 
     MoveRight,
+    Attack_Default,
+    Attack_Counter,
+    Skill,
 }
 
