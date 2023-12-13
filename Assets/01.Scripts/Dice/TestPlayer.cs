@@ -72,6 +72,6 @@ public class TestPlayer : MonoBehaviour, IDiceUnit
 
     public void ExitDice(Dice exitedDice)
     {
-        exitedDice.RollDiceWithRandom(0, 7);
+        exitedDice.RollDiceWithRandom(1, 7);
     }
 }

@@ -15,14 +15,12 @@ public class Dice : PoolableObject
     public Vector2Int diceKey = Vector2Int.zero;
 
     [SerializeField]
-    private Animator _animator = null;
-    [SerializeField]
     private TextMeshPro _text = null;
 
     private void Start()
     {
         dicePip = Random.Range(1, 7);
-        transform.GetComponentInChildren<TextMeshPro>().SetText(dicePip.ToString());
+        _text.SetText(dicePip.ToString());
     }
 
     public void InitDice()
@@ -33,10 +31,11 @@ public class Dice : PoolableObject
     public void RollDiceWithRandom(int min, int max)
     {
         int random = Random.Range(min, max);
+        float pastPip = dicePip;
         dicePip = random;
 
-        //_animator.transform.DOPunchPosition(Vector2.one * 0.1f, 0.3f);
-        _animator.Play("RollingDice");
+        transform.DOPunchPosition(Vector2.up * 0.1f, 0.3f);
+        DOTween.To(() => pastPip, x => { _text.SetText(x.ToString("N0")); }, dicePip, 0.2f);
         _text.SetText(dicePip.ToString());
     }
 
