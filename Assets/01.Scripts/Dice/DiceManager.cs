@@ -43,6 +43,7 @@ public class DiceManager : MonoSingleTon<DiceManager>
     public IEnumerable<Dice> GetCrossDices(Vector2Int startPos, int count) => _diceSelector.GetCrossDices(startPos, count);
     public IEnumerable<Dice> GetXCrossDices(Vector2Int startPos, int count) => _diceSelector.GetXCrossDices(startPos, count);
     public IEnumerable<Dice> GetDiceSquare(Vector2Int centerPos, int size) => _diceSelector.GetDiceSquare(centerPos, size);
-    public IEnumerable<Dice> GetDiceRectangle(Vector2Int centerPos, int width, int height, EDirection rotateDirection = EDirection.Up) => _diceSelector.GetDiceRectangle(centerPos, width, height, rotateDirection);
+    public IEnumerable<Dice> GetDiceRotatedSquare(Vector2Int centerPos, int size) => _diceSelector.GetDiceRotatedSquare(centerPos, size);
+    public IEnumerable<Dice> GetDiceRectangle(Vector2Int centerPos, int width, int height) => _diceSelector.GetDiceRectangle(centerPos, width, height);
     public IEnumerable<Dice> GetDicesWithPattern(Vector2Int centerPos, string pattern, EDirection rotateDirection = EDirection.Up) => _diceSelector.GetDicesWithPattern(centerPos, pattern, rotateDirection);
 }

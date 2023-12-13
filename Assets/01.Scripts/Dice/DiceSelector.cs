@@ -104,7 +104,19 @@ public class DiceSelector
         return GetDiceRectangle(centerPos, size, size);
     }
 
-    public IEnumerable<Dice> GetDiceRectangle(Vector2Int centerPos, int width, int height, EDirection rotateDirection = EDirection.Up)
+    public IEnumerable<Dice> GetDiceRotatedSquare(Vector2Int centerPos, int size)
+    {
+        List<Dice> result = new List<Dice>();
+        Vector2Int leftPos = new Vector2Int(centerPos.x - size, centerPos.y);
+        Vector2Int rightPos = new Vector2Int(centerPos.x + size, centerPos.y);
+        result.AddRange(GetDiceLine(leftPos, EDirection.RightUp, size, false));
+        result.AddRange(GetDiceLine(leftPos, EDirection.RightDown, size, false));
+        result.AddRange(GetDiceLine(rightPos, EDirection.LeftUp, size, false));
+        result.AddRange(GetDiceLine(rightPos, EDirection.LeftDown, size, false));
+        return result.ExcludeReduplication();
+    }
+
+    public IEnumerable<Dice> GetDiceRectangle(Vector2Int centerPos, int width, int height)
     {
         if (width == -1)
         {
@@ -132,7 +144,7 @@ public class DiceSelector
         for (int y = startY; y <= endY; y++)
         {
             searchStartPos.y = y;
-            result.AddRange(GetDiceLine(centerPos + searchStartPos, EDirection.Right, width, false, rotateDirection));
+            result.AddRange(GetDiceLine(centerPos + searchStartPos, EDirection.Right, width - 1, false));
         }
         return result;
     }

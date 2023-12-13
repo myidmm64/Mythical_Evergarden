@@ -439,4 +439,3 @@ MonoBehaviour:
   _text: {fileID: 339815622599618406}
   _redColor: {r: 1, g: 0, b: 0, a: 1}
   _fillRenerer: {fileID: 2725306876406841968}
-  _colorDuration: 0.2
