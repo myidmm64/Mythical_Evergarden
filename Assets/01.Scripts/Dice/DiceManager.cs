@@ -30,6 +30,11 @@ public class DiceManager : MonoSingleTon<DiceManager>
         mapSize = new Vector2Int(maxRow, maxColumn);
     }
 
+    public void PlayDiceMatchingSound()
+    {
+        AudioManager.Instance.Play(EAudioType.DiceMatching);
+    }
+
     public bool TryGetDice(Vector2Int position, out Dice dice) => _diceSelector.TryGetDice(position, out dice);
     public IEnumerable<Dice> GetSamePipDices(int dicePip) => _diceSelector.GetSamePipDices(dicePip);
     public IEnumerable<Dice> GetDiceRow(int rowNum) => _diceSelector.GetDiceRow(rowNum);

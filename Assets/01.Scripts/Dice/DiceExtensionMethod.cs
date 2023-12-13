@@ -6,6 +6,47 @@ using UnityEngine;
 public static class DiceExtensionMethod
 {
     /// <summary>
+    /// IEnumerable 내의 IDiceUnit들을 반환합니다.
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    /// <param name="dices"></param>
+    /// <returns></returns>
+    public static IEnumerable<IDiceUnit> GetIDiceUnits(this IEnumerable<Dice> dices)
+    {
+        List<IDiceUnit> result = new List<IDiceUnit>();
+        foreach (var dice in dices)
+        {
+            if(dice.diceUnit != null)
+            {
+                result.Add(dice.diceUnit);
+            }    
+        }
+        return result;
+    }
+
+    /// <summary>
+    /// IEnumerable 내의 IDiceUnit들을 반환합니다.
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    /// <param name="dices"></param>
+    /// <returns></returns>
+    public static IEnumerable<T> GetIDiceUnits<T>(this IEnumerable<Dice> dices) where T : IDiceUnit
+    {
+        List<T> result = new List<T>();
+        foreach (var dice in dices)
+        {
+            if (dice.diceUnit != null)
+            {
+                if(dice.diceUnit is T)
+                {
+                    result.Add((T)dice.diceUnit);
+                }
+            }
+        }
+        return result;
+    }
+
+    /// <summary>
     /// IEnumerable 내의 중복되는 Dice들을 하나만 남기고 없애줍니다.
     /// </summary>
     /// <param name="dices"></param>
