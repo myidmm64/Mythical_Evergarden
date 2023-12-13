@@ -49,12 +49,9 @@ public class TestPlayer : MonoBehaviour, IDiceUnit
 
         if (moveAmount.sqrMagnitude > 0)
         {
-            transform.position = transform.position + (Vector3)(moveAmount * _moveAmount);
-            myPos += Vector2Int.FloorToInt(moveAmount);
-
-            if (DiceManager.Instance.TryGetDice(myPos, out Dice dice))
+            if(this.ChangeMyDice(myPos + Vector2Int.FloorToInt(moveAmount)))
             {
-                _dice = dice;
+                transform.position = myDice.transform.position;
             }
 
             AudioManager.Instance.Play(EAudioType.DiceMatching);
@@ -75,5 +72,6 @@ public class TestPlayer : MonoBehaviour, IDiceUnit
 
     public void ExitDice(Dice exitedDice)
     {
+        exitedDice.RollDiceWithRandom(0, 7);
     }
 }
