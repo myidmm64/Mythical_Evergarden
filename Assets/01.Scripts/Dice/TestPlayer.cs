@@ -54,7 +54,6 @@ public class TestPlayer : MonoBehaviour, IDiceUnit
                 transform.position = myDice.transform.position;
             }
 
-            AudioManager.Instance.Play(EAudioType.DiceMatching);
             StartCoroutine(MoveDelayCoroutine());
         }
     }
@@ -73,5 +72,6 @@ public class TestPlayer : MonoBehaviour, IDiceUnit
     public void ExitDice(Dice exitedDice)
     {
         exitedDice.RollDiceWithRandom(1, 7);
+        exitedDice.ColorAnimation();
     }
 }
