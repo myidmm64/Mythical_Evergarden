@@ -94,14 +94,14 @@ public class DiceSelector
         return result.ExcludeReduplication();
     }
 
-    public IEnumerable<Dice> GetDiceSquare(Vector2Int centerPos, int size)
+    public IEnumerable<Dice> GetDiceSquare(Vector2Int centerPos, int size, bool isBorder)
     {
         if (size % 2 == 0)
         {
             Debug.LogWarning("size가 짝수입니다. 홀수로 변환합니다.");
             size += 1;
         }
-        return GetDiceRectangle(centerPos, size, size);
+        return GetDiceRectangle(centerPos, size, size, isBorder);
     }
 
     public IEnumerable<Dice> GetDiceRotatedSquare(Vector2Int centerPos, int size)
@@ -116,7 +116,7 @@ public class DiceSelector
         return result.ExcludeReduplication();
     }
 
-    public IEnumerable<Dice> GetDiceRectangle(Vector2Int centerPos, int width, int height)
+    public IEnumerable<Dice> GetDiceRectangle(Vector2Int centerPos, int width, int height, bool isBorder)
     {
         if (width == -1)
         {
@@ -145,6 +145,10 @@ public class DiceSelector
         {
             searchStartPos.y = y;
             result.AddRange(GetDiceLine(centerPos + searchStartPos, EDirection.Right, width - 1, false));
+        }
+        if(isBorder)
+        {
+            return result.ExceptDices(GetDiceRectangle(centerPos, width - 2, height - 2, false));
         }
         return result;
     }
