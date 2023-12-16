@@ -4,7 +4,6 @@ using System.Drawing;
 using System.Linq;
 using Unity.VisualScripting;
 using UnityEngine;
-using static UnityEditor.PlayerSettings;
 
 public class DiceSelector
 {
@@ -116,7 +115,7 @@ public class DiceSelector
         return result.ExcludeReduplication();
     }
 
-    public IEnumerable<Dice> GetDiceRectangle(Vector2Int centerPos, int width, int height, bool isBorder)
+    public IEnumerable<Dice> GetDiceRectangle(Vector2Int centerPos, int width, int height, bool isBorder, EDirection rotateDirection = EDirection.Up)
     {
         if (width == -1)
         {
@@ -137,18 +136,25 @@ public class DiceSelector
             height += 1;
         }
         List<Dice> result = new List<Dice>();
-        int startY = -(height / 2);
-        int endY = height / 2;
-        int startX = -(width / 2);
-        Vector2Int searchStartPos = new Vector2Int(startX, startY);
-        for (int y = startY; y <= endY; y++)
+        Vector2Int searchStartPos = new Vector2Int(-(width / 2), -(height / 2));
+        Vector2Int searchEndPos = new Vector2Int(width / 2, height / 2);
+        Vector2Int position = Vector2Int.zero;
+        for (int x = searchStartPos.x; x <= searchEndPos.x; x++)
         {
-            searchStartPos.y = y;
-            result.AddRange(GetDiceLine(centerPos + searchStartPos, EDirection.Right, width - 1, false));
+            for (int y = searchStartPos.y; y <= searchEndPos.y; y++)
+            {
+                position.x = x;
+                position.y = y;
+                if (TryGetDice(GetRotatedDiceKey(centerPos + position, centerPos, rotateDirection), out Dice dice))
+                {
+                    result.Add(dice);
+                }
+            }
         }
-        if(isBorder)
+
+        if (isBorder)
         {
-            return result.ExceptDices(GetDiceRectangle(centerPos, width - 2, height - 2, false));
+            return result.ExceptDices(GetDiceRectangle(centerPos, width - 2, height - 2, false, rotateDirection));
         }
         return result;
     }

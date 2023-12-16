@@ -14,7 +14,7 @@ public class TestDiceSelector : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.W))
         {
             //DD(DiceManager.Instance.GetDiceSquare(centerPos, 1));
-            DD(DiceManager.Instance.GetDiceRectangle(centerPos, 5, 5, true));
+            DD(DiceManager.Instance.GetDiceRectangle(centerPos, 3, 5, false, EDirection.LeftUp));
             //DD(DiceManager.Instance.GetDicesWithPattern(centerPos, "111\n110\n010", EDirection.Left)) ;
         }
     }
