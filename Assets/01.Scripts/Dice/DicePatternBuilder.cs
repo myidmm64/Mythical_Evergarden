@@ -47,12 +47,12 @@ public class DicePatternBuilder
 
     public IEnumerable<Dice> Next()
     {
-        _currentSubPatternNum++;
-        if(!_dicePatterns[_currentPatternName].ContainsKey(_currentSubPatternNum))
+        if(!_dicePatterns[_currentPatternName].ContainsKey(_currentSubPatternNum + 1))
         {
             Debug.LogWarning($"PatternNum ÃÊ°ú PatternName : {_currentPatternName} / PatternNum : {_currentSubPatternNum}");
             return null;
         }
+        _currentSubPatternNum++;
         return _dicePatterns[_currentPatternName][_currentSubPatternNum].Invoke();
     }
 }

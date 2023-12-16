@@ -46,6 +46,8 @@ public class TestDiceSelector : MonoBehaviour
 
     public void DD(IEnumerable<Dice> dices)
     {
+        if (dices == null) return;
+
         foreach (var dice in dices)
         {
             dice.RollDiceWithRandom(1, 7);
