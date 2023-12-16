@@ -6,7 +6,7 @@ using static UnityEditor.PlayerSettings;
 public class TestDiceSelector : MonoBehaviour
 {
     int i = 0;
-    DicePatternBuilder _dpb = new DicePatternBuilder();
+    DicePatternLinker _dpb = new DicePatternLinker();
     private Vector2Int myPos = new Vector2Int(4, 4);
 
     private void Start()

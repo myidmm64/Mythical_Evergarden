@@ -2,7 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-public class DicePatternBuilder
+public class DicePatternLinker
 {
     public delegate IEnumerable<Dice> PatternDelegate();
 
