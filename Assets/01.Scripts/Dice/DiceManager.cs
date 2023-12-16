@@ -10,23 +10,24 @@ public class DiceManager : MonoSingleTon<DiceManager>
     [SerializeField]
     private DiceGenerateDataSO _diceGenerateDataSO = null;
 
-    private Dictionary<Vector2Int, Dice> _dices = new Dictionary<Vector2Int, Dice>();
+    public Dictionary<Vector2Int, Dice> diceMap { get; private set; }
     private DiceGenerator _diceGenerator = null;
     private DiceSelector _diceSelector = null;
 
-    public Vector2Int mapSize { get; private set; }
-    public Vector2Int mapCenter => new Vector2Int(mapSize.x / 2 + 1, mapSize.y / 2 + 1);
+    public Vector2Int mapSize { get; private set; } // 맵에 dice가 삭제될 때 변경되어야할 가능 성 있음.
+    public Vector2Int mapCenter => new Vector2Int(mapSize.x / 2 + 1, mapSize.y / 2 + 1); // 맵에 dice가 삭제될 때 변경되어야할 가능 성 있음.
 
     private void Awake()
     {
         _diceGenerator = new DiceGenerator();
         GenerateMap();
-        _diceSelector = new DiceSelector(_dices, mapSize);
+        _diceSelector = new DiceSelector(diceMap, mapSize);
     }
 
     private void GenerateMap()
     {
-        _diceGenerator.GenerateDices(_dices, _diceGenerateDataSO, transform, out int maxRow, out int maxColumn);
+        diceMap = new ();
+        _diceGenerator.GenerateDices(diceMap, _diceGenerateDataSO, transform, out int maxRow, out int maxColumn);
         mapSize = new Vector2Int(maxRow, maxColumn);
     }
 
