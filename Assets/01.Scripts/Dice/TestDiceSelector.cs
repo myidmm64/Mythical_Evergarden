@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class TestDiceSelector : MonoBehaviour
 {
+    int i = 0;
     private void Update()
     {
         Vector2Int centerPos = DiceManager.Instance.mapCenter;
@@ -14,7 +15,13 @@ public class TestDiceSelector : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.W))
         {
             //DD(DiceManager.Instance.GetDiceSquare(centerPos, 1));
-            DD(DiceManager.Instance.GetDiceRectangle(centerPos, 3, 5, false, EDirection.LeftUp));
+            DD(DiceManager.Instance.GetDiceRotatedSquare(centerPos, i, false));
+            Debug.Log(i);
+            i++;
+            if(i >= 6)
+            {
+                i = 0;
+            }
             //DD(DiceManager.Instance.GetDicesWithPattern(centerPos, "111\n110\n010", EDirection.Left)) ;
         }
     }
