@@ -20,8 +20,9 @@ public class BossUnit : MonoBehaviour, IDiceUnit
 
     }
 
-    public virtual void GetDamage()
+    public virtual void GetDamage(int damage)
     {
+
     }
 
     private void Start()

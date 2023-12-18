@@ -4,9 +4,9 @@ using UnityEngine;
 
 public class TestUnit : BossUnit
 {
-    public override void GetDamage()
+    public override void GetDamage(int damage)
     {
-        Hp -= 10;
+        Hp -= damage;
         Debug.Log("TestUnit Hp : " + this.Hp);
     }
 

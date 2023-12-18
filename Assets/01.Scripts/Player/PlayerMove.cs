@@ -54,7 +54,7 @@ public class PlayerMove : MonoBehaviour
             }
 
             time = Mathf.Clamp(time + Time.deltaTime * float_moveSpeed, 0, 1);
-            this.transform.position = Vector3.Lerp(myPos, targetDice.transform.position, EasingGraphs.EaseInOutCirc(time));
+            this.transform.position = Vector3.Lerp(myPos, targetDice.transform.position, EasingGraphs.EaseInOutQuint(time));
             yield return null;
         }
     }
@@ -76,7 +76,7 @@ public class PlayerMove : MonoBehaviour
             }
 
             time = Mathf.Clamp(time + Time.deltaTime * 20, 0, 1);
-            this.transform.position = Vector3.Lerp(myPos, befoceDiceVec.transform.position, EasingGraphs.EaseOutCirc(time));
+            this.transform.position = Vector3.Lerp(myPos, befoceDiceVec.transform.position, EasingGraphs.EaseInOutQuint(time));
             yield return null;
         }
     }

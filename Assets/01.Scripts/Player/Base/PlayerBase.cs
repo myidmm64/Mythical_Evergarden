@@ -8,6 +8,8 @@ public class PlayerBase : MonoBehaviour, IDiceUnit
 {
     [SerializeField] private PlayerData playerData;
     private float playerSpeed;
+    private float playerAttackSpeed;
+    private int playerDamage;
 
     [SerializeField] private Dice _dice = null;
     [SerializeField] private Camera mainCamera;
@@ -36,9 +38,12 @@ public class PlayerBase : MonoBehaviour, IDiceUnit
     void Awake()
     {
         _playerMove = GetComponent<PlayerMove>();
-        _playerAttack = GetComponent<PlayerAttack>();
+        _playerAttack = GetComponentInChildren<PlayerAttack>();
         _playerAnimation = GetComponent<PlayerAnimation>();
+
+        SetPlayerStatusDefault();
         _playerMove?.InitData(playerData);
+
         _playerInput = new PlayerInput();
         mainCamera = Camera.main;
         playerSpeed = playerData.MoveSpeed;
@@ -58,6 +63,14 @@ public class PlayerBase : MonoBehaviour, IDiceUnit
         if (DiceManager.Instance.TryGetDice(myPos, out Dice dice))
         {
             transform.position = dice.transform.position;
+        }
+    }
+
+    private void Update()
+    {
+        if(Input.GetKeyDown(KeyCode.R))
+        {
+            SetPlayerStatusDefault();
         }
     }
 
@@ -96,17 +109,26 @@ public class PlayerBase : MonoBehaviour, IDiceUnit
     {
         if (CheckIsNotIdleStateNow()) return;
         _playerState = PlayerState.DefaultAttack;
-        //_playerAnimation.SetAnimationBoolByPlayerState(_playerState);
-        _playerAttack.StartAttack(myPos, ()=>
+        _playerAnimation.SetAnimationBoolByPlayerState(_playerState, playerAttackSpeed);
+        _playerAttack.StartCoroutine(_playerAttack.StartAttack(myPos, playerAttackSpeed, playerDamage,()=>
         {
             SetIdle();
-        });
+        }));
     }
 
-    void ChangeMoveSpeed(float speed)
+    void SetPlayerStatusDefault()
     {
-        playerSpeed = speed;
+        playerSpeed = playerData.MoveSpeed;
+        playerAttackSpeed = playerData.AttackSpeed;
+        playerDamage = playerData.AttackDamage;
+    }
+
+    public void AddCharacterValue(float speed, float attackSpeed, int damage)
+    {
+        playerSpeed += speed;
         _playerMove.SetSpeed(playerSpeed);
+        playerAttackSpeed += attackSpeed;
+        playerDamage += damage;
     }
 
     void Move(Vector2Int direction)
@@ -129,16 +151,6 @@ public class PlayerBase : MonoBehaviour, IDiceUnit
         if (direction.x == myPos.x) return;
         vec.x = direction.x > myPos.x ? 1 : -1;
         Renderer.localScale = vec;
-    }
-
-
-    private void CheckCameraRotation(Vector2Int direction)
-    {
-        Vector3 cameraForward = mainCamera.transform.forward;
-        Vector3 cameraRight = mainCamera.transform.right;
-
-        // 카메라의 상하 회전을 고려하지 않고 수평 방향으로 이동
-        Vector2 moveDirection = new Vector2(cameraForward.x, cameraForward.z) * direction.y + new Vector2(cameraRight.x, cameraRight.z) * direction.x;
     }
 
     void CheckDice(Vector2Int direction)

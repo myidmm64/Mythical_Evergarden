@@ -13,3 +13,5 @@ MonoBehaviour:
   m_Name: TestData
   m_EditorClassIdentifier: 
   MoveSpeed: 9
+  AttackSpeed: 1
+  AttackDamage: 10
