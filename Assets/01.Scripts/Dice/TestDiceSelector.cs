@@ -20,7 +20,7 @@ public class TestDiceSelector : MonoBehaviour
 
         _dpl.ChangePattern("Test1");
 
-        InvokeRepeating("ChangeTestPattern", 1f, 1f);
+        //InvokeRepeating("ChangeTestPattern", 1f, 1f);
     }
 
     public void PlayTestPattern()
