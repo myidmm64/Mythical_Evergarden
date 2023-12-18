@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using BehaviorDesigner.Runtime;
+using static UnityEngine.RuleTile.TilingRuleOutput;
 
 [System.Serializable]
 public class SharedDice : SharedVariable<Dice>
@@ -34,11 +35,15 @@ public class Dice : PoolableObject
     private TextMeshPro _text = null;
     [SerializeField]
     private Color _redColor = Color.red;
+    private Color _originColor = Color.white;
     [SerializeField]
     private SpriteRenderer _fillRenerer = null;
+    private Vector3 _originPos = Vector3.zero;
 
     private void Start()
     {
+        _originColor = _fillRenerer.color;
+        _originPos = transform.position;
         dicePip = Random.Range(1, 7);
     }
 
@@ -55,11 +60,15 @@ public class Dice : PoolableObject
 
     public void ColorAnimation(float colorDuration = 0.2f)
     {
+        _fillRenerer.DOKill();
+        _fillRenerer.color = _originColor;
         _fillRenerer.DOColor(_redColor, colorDuration).SetLoops(2, LoopType.Yoyo);
     }
 
     public void RollAnimation(float pastPip, float endPip)
     {
+        transform.DOKill();
+        transform.position = _originPos;
         transform.DOPunchPosition(Vector2.up * 0.1f, 0.3f);
         DOTween.To(() => pastPip, x => { _text.SetText(x.ToString("N0")); }, endPip, 0.2f)
             .OnComplete(() =>

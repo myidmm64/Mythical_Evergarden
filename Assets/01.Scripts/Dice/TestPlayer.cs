@@ -26,14 +26,14 @@ public class TestPlayer : MonoBehaviour, IDiceUnit
         }
         var normalPattern = DiceManager.Instance.GetDicesWithPattern(myPos, "111\n000\n000");
         var rotatedPattern = DiceManager.Instance.GetDicesWithPattern(myPos, "111\n000\n000", EDirection.Left);
-        foreach(var normal in normalPattern)
+        foreach (var normal in normalPattern)
         {
-            Debug.Log("normal : " + normal.diceKey);
+            //Debug.Log("normal : " + normal.diceKey);
             Debug.DrawLine(transform.position, normal.transform.position, Color.red, 60f);
         }
         foreach (var rotated in rotatedPattern)
         {
-            Debug.Log("rotated : " + rotated.diceKey);
+            //Debug.Log("rotated : " + rotated.diceKey);
             Debug.DrawLine(transform.position, rotated.transform.position, Color.blue, 60f);
         }
     }
