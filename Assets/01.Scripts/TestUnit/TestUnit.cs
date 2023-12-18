@@ -6,8 +6,8 @@ public class TestUnit : BossUnit
 {
     public override void GetDamage()
     {
-        Hp -= 10;
-        Debug.Log("TestUnit Hp : " + this.Hp);
+        _bossStat.hp -= 10;
+        Debug.Log("TestUnit Hp : " + _bossStat.hp);
     }
 
     private void Start()
