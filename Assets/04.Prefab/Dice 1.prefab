@@ -115,6 +115,7 @@ Transform:
   m_Children:
   - {fileID: 8108697542113179782}
   - {fileID: 8445251518351491669}
+  - {fileID: 6234813602155822885}
   m_Father: {fileID: 740447783328063755}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1519554244069266416
@@ -148,7 +149,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 740447783328063755}
+  m_Father: {fileID: 3128994721168936205}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -419,7 +420,6 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 3128994721168936205}
-  - {fileID: 6234813602155822885}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &7473655465206857992
@@ -436,7 +436,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   poolType: 0
   diceKey: {x: 0, y: 0}
+  _spriteTransform: {fileID: 3128994721168936205}
   _text: {fileID: 339815622599618406}
   _redColor: {r: 1, g: 0, b: 0, a: 1}
   _fillRenerer: {fileID: 2725306876406841968}
-  _colorDuration: 0.2

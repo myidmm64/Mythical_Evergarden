@@ -1,8 +1,10 @@
 using DG.Tweening;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 // 나중에 abstract로 만들 것,
 public class Dice : PoolableObject
@@ -23,14 +25,20 @@ public class Dice : PoolableObject
     public Vector2Int diceKey = Vector2Int.zero;
 
     [SerializeField]
+    private Transform _spriteTransform = null;
+    [SerializeField]
     private TextMeshPro _text = null;
     [SerializeField]
     private Color _redColor = Color.red;
+    private Color _originColor = Color.white;
     [SerializeField]
     private SpriteRenderer _fillRenerer = null;
+    private Vector3 _originPos = Vector3.zero;
 
     private void Start()
     {
+        _originColor = _fillRenerer.color;
+        _originPos = _spriteTransform.position;
         dicePip = Random.Range(1, 7);
     }
 
@@ -45,14 +53,18 @@ public class Dice : PoolableObject
         dicePip = random;
     }
 
-    public void ColorAnimation(float colorDuration = 0.2f)
+    public void ColorAnimation(float colorDuration = 0.2f, Action callback = null)
     {
-        _fillRenerer.DOColor(_redColor, colorDuration).SetLoops(2, LoopType.Yoyo);
+        _fillRenerer.DOKill();
+        _fillRenerer.color = _originColor;
+        _fillRenerer.DOColor(_redColor, colorDuration).SetLoops(2, LoopType.Yoyo).OnComplete(() => callback?.Invoke());
     }
 
     public void RollAnimation(float pastPip, float endPip)
     {
-        transform.DOPunchPosition(Vector2.up * 0.1f, 0.3f);
+        _spriteTransform.DOKill();
+        _spriteTransform.position = _originPos;
+        _spriteTransform.DOPunchPosition(Vector2.up * 0.1f, 0.3f);
         DOTween.To(() => pastPip, x => { _text.SetText(x.ToString("N0")); }, endPip, 0.2f)
             .OnComplete(() =>
             {
