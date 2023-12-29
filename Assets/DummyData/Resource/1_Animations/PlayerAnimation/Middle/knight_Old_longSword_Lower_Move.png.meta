@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 491e08ea335b80d4487ca664ae1c4ec2
+guid: db6391a0aada2314bb71596e98f76c86
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -72,7 +72,7 @@ TextureImporter:
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
-    textureCompression: 0
+    textureCompression: 1
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
@@ -136,7 +136,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: MiddleWeapon_Attack_0
+      name: knight_Old_longSword_Vertical_Move_0
       rect:
         serializedVersion: 2
         x: 0
@@ -150,14 +150,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 60118c2b68097f74c9d760a7f9a8784e
-      internalID: -414562629
+      spriteID: 65f80711d33098249b34d9f3c541bd90
+      internalID: 812161914
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: MiddleWeapon_Attack_1
+      name: knight_Old_longSword_Vertical_Move_1
       rect:
         serializedVersion: 2
         x: 128
@@ -171,14 +171,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 63b3f71172d50bc4cb09402742cac3c7
-      internalID: 802131457
+      spriteID: dd99694a0140e1940af5fa7f4c5a89d0
+      internalID: -1120763019
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: MiddleWeapon_Attack_2
+      name: knight_Old_longSword_Vertical_Move_2
       rect:
         serializedVersion: 2
         x: 256
@@ -192,14 +192,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: f1d5f572093aa87408069f363c05adfe
-      internalID: 535976760
+      spriteID: 04c9c687ec405564089cf80ae4c5e0ba
+      internalID: -1643067280
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: MiddleWeapon_Attack_3
+      name: knight_Old_longSword_Vertical_Move_3
       rect:
         serializedVersion: 2
         x: 384
@@ -213,14 +213,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: ccb78b758141f424c8284c10b7dd2976
-      internalID: -1454216221
+      spriteID: 5c1f13032ea21d148a12f27102eab83b
+      internalID: -1937265981
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: MiddleWeapon_Attack_4
+      name: knight_Old_longSword_Vertical_Move_4
       rect:
         serializedVersion: 2
         x: 512
@@ -234,14 +234,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 252debfafb0bfb441b2e36293fda365b
-      internalID: 1613611987
+      spriteID: 1d817c8a961767c43a70b90ee5616b9c
+      internalID: 1350441797
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: MiddleWeapon_Attack_5
+      name: knight_Old_longSword_Vertical_Move_5
       rect:
         serializedVersion: 2
         x: 640
@@ -255,14 +255,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 71a55fb6f343c9a449d2007215b3ed4e
-      internalID: -239087487
+      spriteID: 20cee321b1f9df540ab44de76355147a
+      internalID: 984396543
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: MiddleWeapon_Attack_6
+      name: knight_Old_longSword_Vertical_Move_6
       rect:
         serializedVersion: 2
         x: 768
@@ -276,71 +276,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: d393dc13b99a730458b9cdd7bb1c047f
-      internalID: 615521576
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: MiddleWeapon_Attack_7
-      rect:
-        serializedVersion: 2
-        x: 896
-        y: 0
-        width: 128
-        height: 80
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 5bb0bae27f2306944aae66a1ca3d5e45
-      internalID: -986234994
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: MiddleWeapon_Attack_8
-      rect:
-        serializedVersion: 2
-        x: 1024
-        y: 0
-        width: 128
-        height: 80
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 2edf08f428bf1d6489d54669cd1f4b86
-      internalID: 1336179932
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: MiddleWeapon_Attack_9
-      rect:
-        serializedVersion: 2
-        x: 1152
-        y: 0
-        width: 128
-        height: 80
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 3904b29260b08fd4c938c83d27865ef6
-      internalID: 1671524703
+      spriteID: 5b4f396309cf3224493bf419f56b0309
+      internalID: 1712171194
       vertices: []
       indices: 
       edges: []
@@ -356,16 +293,13 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      MiddleWeapon_Attack_0: -414562629
-      MiddleWeapon_Attack_1: 802131457
-      MiddleWeapon_Attack_2: 535976760
-      MiddleWeapon_Attack_3: -1454216221
-      MiddleWeapon_Attack_4: 1613611987
-      MiddleWeapon_Attack_5: -239087487
-      MiddleWeapon_Attack_6: 615521576
-      MiddleWeapon_Attack_7: -986234994
-      MiddleWeapon_Attack_8: 1336179932
-      MiddleWeapon_Attack_9: 1671524703
+      knight_Old_longSword_Vertical_Move_0: 812161914
+      knight_Old_longSword_Vertical_Move_1: -1120763019
+      knight_Old_longSword_Vertical_Move_2: -1643067280
+      knight_Old_longSword_Vertical_Move_3: -1937265981
+      knight_Old_longSword_Vertical_Move_4: 1350441797
+      knight_Old_longSword_Vertical_Move_5: 984396543
+      knight_Old_longSword_Vertical_Move_6: 1712171194
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

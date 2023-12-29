@@ -134,7 +134,7 @@ GameObject:
   - component: {fileID: 145991250}
   - component: {fileID: 145991251}
   - component: {fileID: 145991252}
-  - component: {fileID: 145991253}
+  - component: {fileID: 145991254}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -172,6 +172,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerData: {fileID: 11400000, guid: 73f024ec766ef1d48a5f44baf829e500, type: 2}
   _dice: {fileID: 0}
+  mainCamera: {fileID: 0}
+  Renderer: {fileID: 1691252485}
 --- !u!114 &145991252
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -184,7 +186,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8a435a8d8f010394e913348434a2dbd6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &145991253
+--- !u!114 &145991254
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -193,9 +195,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 145991248}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7fcb98c27445e8d438b7bc79b2e110c6, type: 3}
+  m_Script: {fileID: 11500000, guid: 6b633a8fc696326458620ae7311332c5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  animator_Player: {fileID: 1691252487}
 --- !u!1 &171971623
 GameObject:
   m_ObjectHideFlags: 0
@@ -556,7 +559,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1301727183
 Transform:
   m_ObjectHideFlags: 0
@@ -686,6 +689,8 @@ GameObject:
   m_Component:
   - component: {fileID: 1691252485}
   - component: {fileID: 1691252486}
+  - component: {fileID: 1691252487}
+  - component: {fileID: 1691252488}
   m_Layer: 0
   m_Name: Renderer
   m_TagString: Untagged
@@ -748,7 +753,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 5
+  m_SortingOrder: 1
   m_Sprite: {fileID: -414562629, guid: 491e08ea335b80d4487ca664ae1c4ec2, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -760,6 +765,39 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!95 &1691252487
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1691252484}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 82c237a84847ed04fb8a2f8545b6d478, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &1691252488
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1691252484}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7fcb98c27445e8d438b7bc79b2e110c6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &2017629742
 GameObject:
   m_ObjectHideFlags: 0
@@ -786,9 +824,9 @@ Transform:
   m_GameObject: {fileID: 2017629742}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.6, z: 0}
-  m_LocalScale: {x: 1.5, y: 1.5, z: 1.5}
-  m_ConstrainProportionsScale: 1
+  m_LocalPosition: {x: 0, y: 0.67, z: 0}
+  m_LocalScale: {x: 2.15, y: 2, z: 2}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1301727183}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -833,12 +871,12 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 5
-  m_Sprite: {fileID: 21300000, guid: a08c14aa63963044fa8cda7386aa55ea, type: 3}
+  m_Sprite: {fileID: 21300000, guid: a9b0075b27e51a148afb8cddbacf5740, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 1, y: 1}
+  m_Size: {x: 0.96, y: 0.96}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1

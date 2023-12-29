@@ -18,7 +18,7 @@ public class PlayerMove : MonoBehaviour
         SetSpeed(_playerData.MoveSpeed);
     }
 
-    public IEnumerator Move(Vector2Int direction, Vector2Int beforePos, Action callBack)
+    public IEnumerator Move(Vector2Int direction, Vector2Int beforePos, Action CheckDice, Action SetIdle)
     {
         if(IsCanMove == false) 
         { 
@@ -32,6 +32,7 @@ public class PlayerMove : MonoBehaviour
         {
             Debug.LogWarning("No Dice Here");
             IsCanMove = true;
+            SetIdle.Invoke();
             yield break;
         }
     
@@ -40,24 +41,25 @@ public class PlayerMove : MonoBehaviour
         {
             if(time == 1) 
             {
-                callBack.Invoke();
+                CheckDice.Invoke();
+                SetIdle.Invoke();
                 IsCanMove = true;
                 yield break; 
             }
 
             if(BattleManager.Instance.GetBossUnitOnDice(direction, out BossUnit boss) && time > 0.3)
             {
-                StartCoroutine(BackToBeforeDiceMove(beforePos));
+                StartCoroutine(BackToBeforeDiceMove(beforePos, SetIdle));
                 yield break;
             }
 
             time = Mathf.Clamp(time + Time.deltaTime * float_moveSpeed, 0, 1);
-            this.transform.position = Vector3.Lerp(myPos, targetDice.transform.position, EasingGraphs.EaseInOutCirc(time));
+            this.transform.position = Vector3.Lerp(myPos, targetDice.transform.position, EasingGraphs.EaseInOutQuint(time));
             yield return null;
         }
     }
 
-    private IEnumerator BackToBeforeDiceMove(Vector2Int beforeDice)
+    private IEnumerator BackToBeforeDiceMove(Vector2Int beforeDice , Action SetIdle)
     {
         Debug.Log("Blocked");
         IsCanMove = false;
@@ -69,11 +71,12 @@ public class PlayerMove : MonoBehaviour
             if (time == 1)
             {
                 IsCanMove = true;
+                SetIdle.Invoke();
                 yield break;
             }
 
             time = Mathf.Clamp(time + Time.deltaTime * 20, 0, 1);
-            this.transform.position = Vector3.Lerp(myPos, befoceDiceVec.transform.position, EasingGraphs.EaseOutCirc(time));
+            this.transform.position = Vector3.Lerp(myPos, befoceDiceVec.transform.position, EasingGraphs.EaseInOutQuint(time));
             yield return null;
         }
     }
