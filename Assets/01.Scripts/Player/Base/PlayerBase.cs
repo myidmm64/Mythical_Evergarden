@@ -119,6 +119,7 @@ public class PlayerBase : MonoBehaviour, IDiceUnit
     void SetPlayerStatusDefault()
     {
         playerSpeed = playerData.MoveSpeed;
+        _playerMove.SetSpeed(playerSpeed);
         playerAttackSpeed = playerData.AttackSpeed;
         playerDamage = playerData.AttackDamage;
     }
