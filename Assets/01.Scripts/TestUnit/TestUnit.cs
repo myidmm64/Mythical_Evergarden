@@ -4,10 +4,10 @@ using UnityEngine;
 
 public class TestUnit : BossUnit
 {
-    public override void GetDamage()
+    public override void GetDamage(int damage)
     {
-        _bossStat.hp -= 10;
-        Debug.Log("TestUnit Hp : " + _bossStat.hp);
+        Hp -= damage;
+        Debug.Log("TestUnit Hp : " + this.Hp);
     }
 
     private void Start()

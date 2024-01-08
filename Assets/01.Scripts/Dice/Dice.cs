@@ -1,25 +1,18 @@
 using DG.Tweening;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
-using BehaviorDesigner.Runtime;
-using static UnityEngine.RuleTile.TilingRuleOutput;
+using Random = UnityEngine.Random;
 
-[System.Serializable]
-public class SharedDice : SharedVariable<Dice>
-{
-    public static implicit operator SharedDice(Dice value) { return new SharedDice { Value = value }; }
-}
-
-// ï¿½ï¿½ï¿½ß¿ï¿½ abstractï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½,
-[System.Serializable]
+// ³ªÁß¿¡ abstract·Î ¸¸µé °Í,
 public class Dice : PoolableObject
 {
-    public IDiceUnit diceUnit = null; // ï¿½ï¿½ï¿½ï¿½ ï¿½Ö»ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ö´ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ®
+    public IDiceUnit diceUnit = null; // ÇöÀç ÁÖ»çÀ§¿¡ ÀÖ´Â ¿ÀºêÁ§Æ®
     public bool Moveable => diceUnit != null;
 
-    private int _dicePip = 0; // ï¿½Ö»ï¿½ï¿½ï¿½ ï¿½ï¿½
+    private int _dicePip = 0; // ÁÖ»çÀ§ ´«
     public int dicePip
     {
         get => _dicePip;
@@ -32,6 +25,8 @@ public class Dice : PoolableObject
     public Vector2Int diceKey = Vector2Int.zero;
 
     [SerializeField]
+    private Transform _spriteTransform = null;
+    [SerializeField]
     private TextMeshPro _text = null;
     [SerializeField]
     private Color _redColor = Color.red;
@@ -43,7 +38,7 @@ public class Dice : PoolableObject
     private void Start()
     {
         _originColor = _fillRenerer.color;
-        _originPos = transform.position;
+        _originPos = _spriteTransform.position;
         dicePip = Random.Range(1, 7);
     }
 
@@ -58,18 +53,18 @@ public class Dice : PoolableObject
         dicePip = random;
     }
 
-    public void ColorAnimation(float colorDuration = 0.2f)
+    public void ColorAnimation(float colorDuration = 0.2f, Action callback = null)
     {
         _fillRenerer.DOKill();
         _fillRenerer.color = _originColor;
-        _fillRenerer.DOColor(_redColor, colorDuration).SetLoops(2, LoopType.Yoyo);
+        _fillRenerer.DOColor(_redColor, colorDuration).SetLoops(2, LoopType.Yoyo).OnComplete(() => callback?.Invoke());
     }
 
     public void RollAnimation(float pastPip, float endPip)
     {
-        transform.DOKill();
-        transform.position = _originPos;
-        transform.DOPunchPosition(Vector2.up * 0.1f, 0.3f);
+        _spriteTransform.DOKill();
+        _spriteTransform.position = _originPos;
+        _spriteTransform.DOPunchPosition(Vector2.up * 0.1f, 0.3f);
         DOTween.To(() => pastPip, x => { _text.SetText(x.ToString("N0")); }, endPip, 0.2f)
             .OnComplete(() =>
             {

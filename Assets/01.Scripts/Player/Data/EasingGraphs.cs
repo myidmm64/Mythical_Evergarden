@@ -25,4 +25,12 @@ public static class EasingGraphs
             ? (1 - Mathf.Sqrt(1 - Mathf.Pow(2 * x, 2))) / 2
             : (Mathf.Sqrt(1 - Mathf.Pow(-2 * x + 2, 2)) + 1) / 2;
     }
+        
+    
+    public static float EaseInOutQuint(float x)
+    {
+        return x < 0.5 ? 16 * x * x * x * x * x : 1 - Mathf.Pow(-2 * x + 2, 5) / 2;
+    }
+
+
 }
