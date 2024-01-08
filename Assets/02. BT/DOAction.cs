@@ -20,17 +20,19 @@ public class DOAction : ActionVer2
 
 	public override void OnEnter()
 	{
+		base.OnEnter();
+
 		if (DiceManager.Instance.TryGetDice(boss_object.Value.GetComponent<IDiceUnit>().myPos, out Dice dice))
 			cur_dice = dice;
+
+		seq.Append(tweens);
+		seq.AppendCallback(() => isReturn = true);
+		seq.Play();
 	}
 
 	public override TaskStatus OnUpdate()
 	{
 		base.OnUpdate();
-
-		seq.Append(tweens);
-		seq.AppendCallback(() => isReturn = true);
-		seq.Play();
 
 		if (isReturn)
 			return TaskStatus.Success;
