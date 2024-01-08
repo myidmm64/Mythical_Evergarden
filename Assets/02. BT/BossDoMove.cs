@@ -9,8 +9,8 @@ public class BossDoMove : DOAction
 
 	public override void OnStart()
 	{
-		base.OnStart();
 		tweens = this.gameObject.transform.DOMove(boss_move_pos, time);
+		base.OnStart();
 	}
 
 }

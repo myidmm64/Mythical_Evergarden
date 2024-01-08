@@ -2,24 +2,42 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
-using System.Threading.Tasks;
+using BehaviorDesigner.Runtime.Tasks;
 
 public class BossChase : DOAction
 {
-	public Vector2 boss_move_pos = Vector3.zero;
+	public Vector3 boss_move_pos = Vector3.zero;
 
-	private PlayerBase player_object = null;
+	private IDiceUnit player_object = null;
+
+	private bool isCancled = false;
 
 	public override void OnStart()
 	{
 		base.OnStart();
-		player_object = GameObject.FindObjectOfType<PlayerBase>();
+		player_object = GameObject.Find("Player").GetComponent<IDiceUnit>();
 	}
 
 	public override void OnEnter()
 	{
-		base.OnEnter();
-		boss_move_pos = player_object.myPos;
-		tweens = this.gameObject.transform.DOMove(boss_move_pos, time);
+		Dice dice;
+		if (DiceManager.Instance.TryGetDice(player_object.myPos, out dice))
+		{
+			boss_move_pos = dice.transform.position;
+			tweens = this.gameObject.transform.DOMove(boss_move_pos, time);
+			base.OnEnter();
+		}
+		else
+		{
+			Debug.LogError("Don't Find Tile Object");
+			isCancled = true;
+		}
+	}
+
+	public override TaskStatus OnUpdate()
+	{
+		if(isCancled) { return TaskStatus.Failure; }
+
+		return base.OnUpdate();
 	}
 }

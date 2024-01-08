@@ -18,13 +18,19 @@ public class DOAction : ActionVer2
 
 	public bool isReturn = false;
 
+	public override void OnStart()
+	{
+		base.OnStart();
+	}
+
 	public override void OnEnter()
 	{
-		base.OnEnter();
+		boss_object.SetValue(this.gameObject);
 
 		if (DiceManager.Instance.TryGetDice(boss_object.Value.GetComponent<IDiceUnit>().myPos, out Dice dice))
 			cur_dice = dice;
 
+		seq = DOTween.Sequence();
 		seq.Append(tweens);
 		seq.AppendCallback(() => isReturn = true);
 		seq.Play();
@@ -35,7 +41,10 @@ public class DOAction : ActionVer2
 		base.OnUpdate();
 
 		if (isReturn)
+		{
+			Debug.Log("Return DoAction Success");
 			return TaskStatus.Success;
+		}
 		else
 			return TaskStatus.Running;
 	}

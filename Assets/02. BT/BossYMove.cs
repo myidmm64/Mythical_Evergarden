@@ -12,6 +12,11 @@ public class BossYPos : DOAction
 	public override void OnStart()
 	{
 		base.OnStart();
+	}
+
+	public override void OnEnter()
+	{
 		tweens = this.gameObject.transform.DOMoveY(yPos, time);
+		base.OnEnter();
 	}
 }

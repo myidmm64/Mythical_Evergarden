@@ -24,7 +24,7 @@ public class BossUnit : MonoBehaviour, IDiceUnit, IBossState
 
     }
 
-    public virtual void GetDamage()
+    public virtual void GetDamage(int damage)
     {
         
     }
@@ -37,7 +37,8 @@ public class BossUnit : MonoBehaviour, IDiceUnit, IBossState
             transform.position = dice.transform.position;
 			myDice = dice;
 		}
-    }
+
+	}
 
 	public bool HaveState(UnitState state)
 	{
