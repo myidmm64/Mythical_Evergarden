@@ -5,31 +5,34 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BossUp : Action
+public class DOAction : ActionVer2
 {
+	protected DG.Tweening.Sequence seq = DOTween.Sequence();
+	protected Tween tweens;
+
 	public SharedGameObject boss_object;
 
 	public Dice cur_dice;
 
-	public Vector3 yPos = Vector3.up;
 	public float time;
 
 	public bool isReturn = false;
 
-	public override void OnStart()
+	public override void OnEnter()
 	{
-		if(DiceManager.Instance.TryGetDice(boss_object.Value.GetComponent<IDiceUnit>().myPos, out Dice dice))
+		if (DiceManager.Instance.TryGetDice(boss_object.Value.GetComponent<IDiceUnit>().myPos, out Dice dice))
 			cur_dice = dice;
 	}
-	
+
 	public override TaskStatus OnUpdate()
 	{
-        DG.Tweening.Sequence seq = DOTween.Sequence();
-		seq.Append(this.gameObject.transform.DOMove(yPos, time));
+		base.OnUpdate();
+
+		seq.Append(tweens);
 		seq.AppendCallback(() => isReturn = true);
 		seq.Play();
 
-		if(isReturn)
+		if (isReturn)
 			return TaskStatus.Success;
 		else
 			return TaskStatus.Running;

@@ -1,5 +1,4 @@
-using BehaviorDesigner.Runtime.Tasks.Unity.SharedVariables;
-using JetBrains.Annotations;
+using DG.Tweening;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -58,7 +57,7 @@ public class BossUnit : MonoBehaviour, IDiceUnit, IBossState
 	}
 
     /// <summary>
-    /// state¸¦ ¹ÝÀü ½ÃÄÑÁÜ ÀÚ±â ÀÚ½ÅÀ» Àû¾îÁÖ¸é ÀüºÎ ¹ÝÀü
+    /// stateï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ú±ï¿½ ï¿½Ú½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ö¸ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
     /// </summary>
     /// <param name="state"></param>
     public void NegaState(UnitState state)
