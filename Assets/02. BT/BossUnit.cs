@@ -6,6 +6,10 @@ using UnityEngine;
 
 public class BossUnit : MonoBehaviour, IDiceUnit, IBossState
 {
+    [SerializeField]
+    private PopupDataSO _testHitPopupData = null;
+
+
     public BossStat _bossStat = new BossStat();
 
     public Dice myDice { get; set; }
@@ -26,7 +30,7 @@ public class BossUnit : MonoBehaviour, IDiceUnit, IBossState
 
     public virtual void GetDamage(int damage)
     {
-        Debug.Log($"아파요!!{damage}");
+        PopupManager.Instance.Popup(_testHitPopupData, damage.ToString(), transform.position + Vector3.up * 0.5f, null);
     }
 
     private void Start()
