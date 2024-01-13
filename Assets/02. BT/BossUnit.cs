@@ -30,7 +30,14 @@ public class BossUnit : MonoBehaviour, IDiceUnit, IBossState
 
     public virtual void GetDamage(int damage)
     {
-        PopupManager.Instance.Popup(_testHitPopupData, damage.ToString(), transform.position + Vector3.up * 0.5f, null);
+        if (PopupManager.Instance != null)
+        {
+            PopupManager.Instance.Popup(_testHitPopupData, damage.ToString(), transform.position + Vector3.up * 0.5f, null);
+        }
+        if (CameraManager.Instance != null)
+        {
+            CameraManager.Instance.CameraShake(1f, 2f, 0.1f);
+        }
     }
 
     private void Start()
