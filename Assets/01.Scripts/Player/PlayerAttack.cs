@@ -37,7 +37,7 @@ public class PlayerAttack : MonoBehaviour
     private IEnumerable<BossUnit> GetBossUnitsInAttackRange(Vector2Int myPos)
     {
         var attackRange = DiceManager.Instance.GetCrossDices(myPos, 1); // 십자 
-        attackRange.SubDices(myPos); // 자신 위치 뺌
+        attackRange = attackRange.SubDices(myPos); // 자신 위치 뺌
         return attackRange.GetIDiceUnits<BossUnit>();
     }
 
