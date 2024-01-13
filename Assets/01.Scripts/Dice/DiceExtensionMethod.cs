@@ -66,4 +66,31 @@ public static class DiceExtensionMethod
     {
         return dices.Except(exceptDices);
     }
+
+    public static IEnumerable<Dice> AddDices(this IEnumerable<Dice> dices, params Vector2Int[] addPositions)
+    {
+        List<Dice> result = new List<Dice>();
+        result.AddRange(dices);
+        foreach (var addPosition in addPositions)
+        {
+            if(DiceManager.Instance.TryGetDice(addPosition, out Dice dice))
+            {
+                result.Add(dice);
+            }
+        }
+        return result;
+    }
+
+    public static IEnumerable<Dice> SubDices(this IEnumerable<Dice> dices, params Vector2Int[] subPositions)
+    {
+        List<Dice> result = new List<Dice>();
+        foreach (var subPosition in subPositions)
+        {
+            if (DiceManager.Instance.TryGetDice(subPosition, out Dice dice))
+            {
+                result.Add(dice);
+            }
+        }
+        return (dices.ExceptDices(result)).ExcludeReduplication();
+    }
 }

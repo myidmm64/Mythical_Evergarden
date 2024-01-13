@@ -8,13 +8,13 @@ public class BossUnit : MonoBehaviour, IDiceUnit, IBossState
 {
     public BossStat _bossStat = new BossStat();
 
-	public Dice myDice { get; set; }
+    public Dice myDice { get; set; }
     public Vector2Int myPos { get; set; }
 
-	public UnitState STATE { get => state; set => AddState(value); }
+    public UnitState STATE { get => state; set => AddState(value); }
     public UnitState state = UnitState.None;
 
-	public void EnterDice(Dice enterdDice)
+    public void EnterDice(Dice enterdDice)
     {
 
     }
@@ -26,45 +26,43 @@ public class BossUnit : MonoBehaviour, IDiceUnit, IBossState
 
     public virtual void GetDamage(int damage)
     {
-        
+        Debug.Log($"아파요!!{damage}");
     }
 
     private void Start()
     {
-        myPos = new Vector2Int(4, 4);
-        if (DiceManager.Instance.TryGetDice(myPos, out Dice dice))
+        Vector2Int newPos = DiceManager.Instance.mapCenter;
+        if (this.ChangeMyDice(newPos, out Dice dice))
         {
             transform.position = dice.transform.position;
-			myDice = dice;
-		}
+        }
+    }
 
-	}
-
-	public bool HaveState(UnitState state)
-	{
+    public bool HaveState(UnitState state)
+    {
         if ((state & STATE) != 0)
             return true;
         else
             return false;
-	}
+    }
 
-	public void DeleteState(UnitState state) => this.state |= state;
+    public void DeleteState(UnitState state) => this.state |= state;
 
-	public void AddState(UnitState state) => this.state &= ~state;
+    public void AddState(UnitState state) => this.state &= ~state;
 
-	public void DelAllState()
-	{
+    public void DelAllState()
+    {
         this.state = UnitState.None;
-	}
+    }
 
     /// <summary>
     /// state�� ���� ������ �ڱ� �ڽ��� �����ָ� ���� ����
     /// </summary>
     /// <param name="state"></param>
     public void NegaState(UnitState state)
-	{
-		this.state ^= state;
-	}
+    {
+        this.state ^= state;
+    }
 }
 
 public interface IBossState

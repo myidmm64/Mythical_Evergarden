@@ -10,8 +10,9 @@ public static class IDiceUnitExtensionMethod
     /// <param name="unit"></param>
     /// <param name="targetPos"></param>
     /// <returns></returns>
-    public static bool ChangeMyDice(this IDiceUnit unit, Vector2Int targetPos)
+    public static bool ChangeMyDice(this IDiceUnit unit, Vector2Int targetPos, out Dice outDice)
     {
+        outDice = null;
         if (DiceManager.Instance == null) return false;
 
         if (DiceManager.Instance.TryGetDice(targetPos, out Dice dice))
@@ -22,6 +23,7 @@ public static class IDiceUnitExtensionMethod
                 unit.ExitDice(unit.myDice);
             }
 
+            outDice = dice;
             dice.diceUnit = unit;
             unit.myPos = targetPos;
             unit.myDice = dice;

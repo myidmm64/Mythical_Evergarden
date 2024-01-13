@@ -20,7 +20,7 @@ public class TestPlayer : MonoBehaviour, IDiceUnit
 
     private void Start()
     {
-        if (this.ChangeMyDice(DiceManager.Instance.mapCenter))
+        if (this.ChangeMyDice(DiceManager.Instance.mapCenter, out Dice dice))
         {
             transform.position = myDice.transform.position;
         }
@@ -49,7 +49,7 @@ public class TestPlayer : MonoBehaviour, IDiceUnit
 
         if (moveAmount.sqrMagnitude > 0)
         {
-            if(this.ChangeMyDice(myPos + Vector2Int.FloorToInt(moveAmount)))
+            if(this.ChangeMyDice(myPos + Vector2Int.FloorToInt(moveAmount), out Dice dice))
             {
                 transform.position = myDice.transform.position;
             }

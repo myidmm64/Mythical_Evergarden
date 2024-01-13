@@ -9,6 +9,9 @@ public class PlayerAttack : MonoBehaviour
 
     public IEnumerator StartAttack(Vector2Int myPos, float attackSpeed, int damage, Action SetIdle)
     {
+        TestAttack(myPos, damage, SetIdle);
+        yield break;
+
         float time = 0;
         isCanAttack = false;
 
@@ -19,7 +22,6 @@ public class PlayerAttack : MonoBehaviour
                 SetIdle.Invoke();
                 yield break;
             }
-            
             if(isCanAttack)
             {
                 for (int i = (int)EDirection.Left; i < (int)EDirection.Down + 1; i++)
@@ -36,6 +38,17 @@ public class PlayerAttack : MonoBehaviour
             time = Mathf.Clamp(time + Time.deltaTime * attackSpeed, 0, 1);
             yield return null;
         }
+    }
+
+    private void TestAttack(Vector2Int myPos, int damage, Action SetIdle)
+    {
+        var attackRange = DiceManager.Instance.GetCrossDices(myPos, 1); // 십자 
+        attackRange.SubDices(myPos);
+        foreach (var bossUnit in attackRange.GetIDiceUnits<BossUnit>())
+        {
+            bossUnit.GetDamage(damage);
+        }
+        SetIdle.Invoke(); // 테스트용
     }
 
     public void AttackHit(int isHit)
