@@ -9,9 +9,6 @@ public class PlayerAttack : MonoBehaviour
 
     public IEnumerator StartAttack(Vector2Int myPos, float attackSpeed, int damage, Action SetIdle)
     {
-        TestAttack(myPos, damage, SetIdle);
-        yield break;
-
         float time = 0;
         isCanAttack = false;
 
@@ -24,13 +21,10 @@ public class PlayerAttack : MonoBehaviour
             }
             if(isCanAttack)
             {
-                for (int i = (int)EDirection.Left; i < (int)EDirection.Down + 1; i++)
+                foreach(var bossUnit in GetBossUnitsInAttackRange(myPos))
                 {
-                    if (BattleManager.Instance.GetBossUnitOnDice(myPos + Utility.GetDirection((EDirection)i), out BossUnit boss))
-                    {
-                        boss.GetDamage(damage);
-                        yield return null;
-                    }
+                    bossUnit.GetDamage(damage);
+                    yield return null;
                 }
                 isCanAttack = false;
             }
@@ -40,15 +34,11 @@ public class PlayerAttack : MonoBehaviour
         }
     }
 
-    private void TestAttack(Vector2Int myPos, int damage, Action SetIdle)
+    private IEnumerable<BossUnit> GetBossUnitsInAttackRange(Vector2Int myPos)
     {
         var attackRange = DiceManager.Instance.GetCrossDices(myPos, 1); // 십자 
-        attackRange.SubDices(myPos);
-        foreach (var bossUnit in attackRange.GetIDiceUnits<BossUnit>())
-        {
-            bossUnit.GetDamage(damage);
-        }
-        SetIdle.Invoke(); // 테스트용
+        attackRange.SubDices(myPos); // 자신 위치 뺌
+        return attackRange.GetIDiceUnits<BossUnit>();
     }
 
     public void AttackHit(int isHit)
