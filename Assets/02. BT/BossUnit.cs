@@ -8,7 +8,12 @@ public class BossUnit : MonoBehaviour, IDiceUnit, IBossState
 {
     [SerializeField]
     private PopupDataSO _testHitPopupData = null;
+    [SerializeField]
+    private int _mapHp = 4000;
+    [SerializeField]
+    private HPBar _hpBar = null;
 
+    private int _curHp = 0;
 
     public BossStat _bossStat = new BossStat();
 
@@ -30,6 +35,7 @@ public class BossUnit : MonoBehaviour, IDiceUnit, IBossState
 
     public virtual void GetDamage(int damage)
     {
+        _curHp -= damage;
         if (PopupManager.Instance != null)
         {
             PopupManager.Instance.Popup(_testHitPopupData, damage.ToString(), transform.position + Vector3.up * 0.5f, null);
@@ -38,10 +44,13 @@ public class BossUnit : MonoBehaviour, IDiceUnit, IBossState
         {
             CameraManager.Instance.CameraShake(1f, 2f, 0.1f);
         }
+        _hpBar?.HpUpdate(_curHp);
     }
 
     private void Start()
     {
+        _curHp = _mapHp;
+        _hpBar?.HpInit(_mapHp);
         Vector2Int newPos = DiceManager.Instance.mapCenter;
         if (this.ChangeMyDice(newPos, out Dice dice))
         {
