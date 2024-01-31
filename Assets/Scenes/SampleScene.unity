@@ -812,17 +812,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d2a0ac5ee0bb7934b8c959f7fdf80fdf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _testHitPopupData: {fileID: 11400000, guid: 2cd703d1d0d3f084ebb7c94ef6777bc7, type: 2}
-  _mapHp: 4000
-  _hpBar: {fileID: 1820556663423138235}
   _bossStat:
     hp: 0
     atk: 0
   state: 1
+  _testHitPopupData: {fileID: 11400000, guid: 2cd703d1d0d3f084ebb7c94ef6777bc7, type: 2}
+  _mapHp: 4000
+  _hpBar: {fileID: 1820556663423138235}
   _patterns:
   - name: "\uB124\uBAA8 \uD328\uD134"
     obj: {fileID: 912434954}
     weight: 40
+    maxWeight: 0
+  - name: "\uC2ED\uC790\uAC00 \uD328\uD134"
+    obj: {fileID: 912434954}
+    weight: 40
+    maxWeight: 0
+  - name: "\uB3C4\uB11B \uD328\uD134"
+    obj: {fileID: 912434954}
+    weight: 20
     maxWeight: 0
   _upTime: 0.25
   _downTime: 0.25
@@ -841,6 +849,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 76773ad2b0ea9be4fac4a33dac789a4c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _subPatterns: []
   patternState: 0
 --- !u!1 &1115241359
 GameObject:
