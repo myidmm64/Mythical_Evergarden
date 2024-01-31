@@ -4,13 +4,18 @@ using UnityEngine;
 
 public abstract class BossPattern : MonoBehaviour
 {
+    [SerializeField]
+    protected List<BossPattern> _subPatterns = new List<BossPattern>();
+
+    protected string _className = "";
     protected DicePatternLinker _patternLinker = null;
     protected BossUnit _bossUnit = null;
 
     public PatternState patternState = PatternState.None;
 
-    public virtual void InitPattern(BossUnit bossUnit, DicePatternLinker patternLinker)
+    public void InitPattern(BossUnit bossUnit, DicePatternLinker patternLinker)
     {
+        _className = this.GetType().ToString();
         _bossUnit = bossUnit;
         _patternLinker = patternLinker;
         InitPatternLinker(patternLinker);

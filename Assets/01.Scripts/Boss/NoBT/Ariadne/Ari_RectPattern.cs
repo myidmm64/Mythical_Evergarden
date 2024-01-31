@@ -7,8 +7,7 @@ public class Ari_RectPattern : BossPattern
 {
     public override void InitPatternLinker(DicePatternLinker patternLinker)
     {
-        string className = this.GetType().ToString();
-        patternLinker.AddPattern(className, GetRactPattern);
+        patternLinker.AddPattern(_className, GetRactPattern);
     }
 
     private IEnumerable<Dice> GetRactPattern()
@@ -19,6 +18,7 @@ public class Ari_RectPattern : BossPattern
 
     public override void PatternStart()
     {
+        _patternLinker.ChangePattern(_className);
         _bossUnit.StartCoroutine(PatternCoroutine());
     }
 
@@ -26,8 +26,7 @@ public class Ari_RectPattern : BossPattern
     {
         Ariadne_Unit myBoss = _bossUnit as Ariadne_Unit;
         yield return new WaitForSeconds(myBoss._testWaitTime);
-        myBoss.MoveAndAttack(myBoss.GetPlayerPos, GetRactPattern());
-        yield return new WaitForSeconds(myBoss._upTime + myBoss._moveTime + myBoss._downTime + 0.1f);
+        yield return myBoss.MoveAndAttack(myBoss.GetPlayerPos, _patternLinker.Next()).WaitForCompletion();
 
         patternState = PatternState.Success;
     }
