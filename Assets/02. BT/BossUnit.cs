@@ -47,7 +47,7 @@ public class BossUnit : MonoBehaviour, IDiceUnit, IBossState
         _hpBar?.HpUpdate(_curHp);
     }
 
-    private void Start()
+    protected virtual void Start()
     {
         _curHp = _mapHp;
         _hpBar?.HpInit(_mapHp);

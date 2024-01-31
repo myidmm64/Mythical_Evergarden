@@ -759,9 +759,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 912434952}
-  - component: {fileID: 912434951}
-  - component: {fileID: 912434950}
   - component: {fileID: 912434949}
+  - component: {fileID: 912434953}
   m_Layer: 0
   m_Name: Boss_Ariadne
   m_TagString: Untagged
@@ -784,70 +783,6 @@ MonoBehaviour:
   prefix: '@'
   backColor: {r: 1, g: 1, b: 1, a: 1}
   fontColor: {r: 0, g: 0, b: 0, a: 1}
---- !u!114 &912434950
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 912434948}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e136738ac52d88841b12e29939b628b5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _testHitPopupData: {fileID: 11400000, guid: 2cd703d1d0d3f084ebb7c94ef6777bc7, type: 2}
-  _mapHp: 4000
-  _hpBar: {fileID: 1820556663423138235}
-  _bossStat:
-    hp: 0
-    atk: 0
-  state: 1
---- !u!114 &912434951
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 912434948}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8d7b55c7ecdb49a4a89fa5e6f9022861, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  startWhenEnabled: 1
-  asynchronousLoad: 0
-  pauseWhenDisabled: 0
-  restartWhenComplete: 0
-  logTaskChanges: 0
-  group: 0
-  resetValuesOnRestart: 0
-  externalBehavior: {fileID: 11400000, guid: d3bb00d05debb0d4a8c7011d43840489, type: 2}
-  mBehaviorSource:
-    behaviorName: 123
-    behaviorDescription: 'Boss_Statue
-
-'
-    mTaskData:
-      types: []
-      parentIndex: 
-      startIndex: 
-      variableStartIndex: 
-      JSONSerialization: '{"EntryTask":{"Type":"BehaviorDesigner.Runtime.Tasks.EntryTask","NodeData":{"Offset":"(-1093.67834,82.02536)"},"ID":0,"Name":"Entry","Instant":true},"RootTask":{"Type":"BehaviorDesigner.Runtime.Tasks.Selector","NodeData":{"Offset":"(189.558228,398.78894)"},"ID":1,"Name":"Selector","Instant":true,"AbortTypeabortType":"None","Children":[{"Type":"BehaviorDesigner.Runtime.Tasks.Parallel","NodeData":{"Offset":"(-222.958344,359.422974)"},"ID":2,"Name":"Parallel","Instant":true,"AbortTypeabortType":"None","Children":[{"Type":"BossYPos","NodeData":{"Offset":"(-159.991058,291.710846)"},"ID":3,"Name":"Boss
-        Y Pos","Instant":true,"SingleyPos":0,"SharedGameObjectboss_object":{"Type":"BehaviorDesigner.Runtime.SharedGameObject","Name":null},"Singletime":0,"BooleanisReturn":false},{"Type":"BehaviorDesigner.Runtime.Tasks.Idle","NodeData":{"Offset":"(-0.871582031,294.79184)"},"ID":4,"Name":"Idle","Instant":true},{"Type":"BossChase","NodeData":{"Offset":"(135.1095,285.2782)"},"ID":5,"Name":"Boss
-        Chase","Instant":true,"Vector3boss_move_pos":"(0,0,0)","SharedGameObjectboss_object":{"Type":"BehaviorDesigner.Runtime.SharedGameObject","Name":null},"Singletime":0,"BooleanisReturn":false}]}]},"Variables":[{"Type":"BehaviorDesigner.Runtime.SharedGameObject","Name":"PlayerObj","IsShared":true,"GameObjectmValue":0}]}'
-      fieldSerializationData:
-        typeName: []
-        fieldNameHash: 
-        startIndex: 
-        dataPosition: 
-        unityObjects:
-        - {fileID: 1988767507}
-        byteData: 
-        byteDataArray: 
-      Version: 1.7.7
-  gizmoViewMode: 2
-  showBehaviorDesignerGizmo: 1
 --- !u!4 &912434952
 Transform:
   m_ObjectHideFlags: 0
@@ -864,6 +799,39 @@ Transform:
   - {fileID: 2078244535}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &912434953
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 912434948}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d2a0ac5ee0bb7934b8c959f7fdf80fdf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _testHitPopupData: {fileID: 11400000, guid: 2cd703d1d0d3f084ebb7c94ef6777bc7, type: 2}
+  _mapHp: 4000
+  _hpBar: {fileID: 1820556663423138235}
+  _bossStat:
+    hp: 0
+    atk: 0
+  state: 1
+  _patterns:
+  - name: "\uB124\uBAA8 \uD328\uD134"
+    pattern: {fileID: 0}
+    weight: 40
+    maxWeight: 0
+  - name: "\uC2ED\uC790 \uD328\uD134"
+    pattern: {fileID: 0}
+    weight: 40
+    maxWeight: 0
+  - name: "\uCE74\uC6B4\uD130 \uD328\uD134"
+    pattern: {fileID: 0}
+    weight: 20
+    maxWeight: 0
+  _player: {fileID: 0}
 --- !u!1 &1115241359
 GameObject:
   m_ObjectHideFlags: 0
