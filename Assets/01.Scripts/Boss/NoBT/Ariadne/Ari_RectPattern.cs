@@ -13,7 +13,8 @@ public class Ari_RectPattern : BossPattern
 
     private IEnumerable<Dice> GetRactPattern()
     {
-        return DiceManager.Instance.GetDiceSquare(_bossUnit.myPos, 3, true);
+        Ariadne_Unit myBoss = _bossUnit as Ariadne_Unit;
+        return DiceManager.Instance.GetDiceSquare(myBoss.GetPlayerPos, 3, true);
     }
 
     public override void PatternStart()
@@ -23,10 +24,10 @@ public class Ari_RectPattern : BossPattern
 
     private IEnumerator PatternCoroutine()
     {
-        yield return new WaitForSeconds(1f);
-
         Ariadne_Unit myBoss = _bossUnit as Ariadne_Unit;
-        yield return new WaitUntil(() => !myBoss.MoveAndAttack(myBoss.GetPlayerPos, GetRactPattern()).IsPlaying());
+        yield return new WaitForSeconds(myBoss._testWaitTime);
+        myBoss.MoveAndAttack(myBoss.GetPlayerPos, GetRactPattern());
+        yield return new WaitForSeconds(myBoss._upTime + myBoss._moveTime + myBoss._downTime + 0.1f);
 
         patternState = PatternState.Success;
     }

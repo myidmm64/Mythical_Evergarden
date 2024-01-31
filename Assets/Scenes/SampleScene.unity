@@ -761,6 +761,7 @@ GameObject:
   - component: {fileID: 912434952}
   - component: {fileID: 912434949}
   - component: {fileID: 912434953}
+  - component: {fileID: 912434954}
   m_Layer: 0
   m_Name: Boss_Ariadne
   m_TagString: Untagged
@@ -818,11 +819,29 @@ MonoBehaviour:
     hp: 0
     atk: 0
   state: 1
-  _patterns: []
-  _upTime: 0.5
-  _downTime: 0.5
-  _moveTime: 1
+  _patterns:
+  - name: "\uB124\uBAA8 \uD328\uD134"
+    obj: {fileID: 912434954}
+    weight: 40
+    maxWeight: 0
+  _upTime: 0.25
+  _downTime: 0.25
+  _moveTime: 0.5
+  _testWaitTime: 0.5
   _player: {fileID: 1988767510}
+--- !u!114 &912434954
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 912434948}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 76773ad2b0ea9be4fac4a33dac789a4c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  patternState: 0
 --- !u!1 &1115241359
 GameObject:
   m_ObjectHideFlags: 0

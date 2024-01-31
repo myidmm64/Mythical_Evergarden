@@ -57,7 +57,7 @@ public class Dice : PoolableObject
     {
         _fillRenerer.DOKill();
         _fillRenerer.color = _originColor;
-        _fillRenerer.DOColor(_redColor, colorDuration).SetLoops(2, LoopType.Yoyo).OnComplete(() => callback?.Invoke());
+        _fillRenerer.DOColor(_redColor, colorDuration).SetLoops(2, LoopType.Yoyo).OnComplete(() => callback?.Invoke()).SetEase(Ease.Linear);
     }
 
     public void RollAnimation(float pastPip, float endPip)

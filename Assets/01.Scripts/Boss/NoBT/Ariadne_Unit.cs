@@ -6,7 +6,7 @@ using UnityEngine;
 using Random = UnityEngine.Random;
 
 [System.Serializable]
-public class WeightedRandomableObject<T> 
+public class WeightedRandomableObject<T>
 {
     public string name;
     public T obj;
@@ -15,7 +15,7 @@ public class WeightedRandomableObject<T>
     public float maxWeight;
 }
 
-public class WeightedRandomController<T> 
+public class WeightedRandomController<T>
 {
     private float _maxWeight = 0f;
     private List<WeightedRandomableObject<T>> _items = new List<WeightedRandomableObject<T>>();
@@ -57,6 +57,7 @@ public class Ariadne_Unit : BossUnit
     public float _upTime = 0.5f;
     public float _downTime = 0.5f;
     public float _moveTime = 1f;
+    public float _testWaitTime = 1f;
 
     [Space(20)]
     [SerializeField]
@@ -72,7 +73,7 @@ public class Ariadne_Unit : BossUnit
 
     private void Init()
     {
-        if(_player == null)
+        if (_player == null)
         {
             _player = GameObject.FindObjectOfType<PlayerBase>();
         }
@@ -88,13 +89,13 @@ public class Ariadne_Unit : BossUnit
     {
         while (true)
         {
-            if(_currentPattern == null)
+            if (_currentPattern == null)
                 _currentPattern = _randomControl.GetWeightedRandomObj();
 
             Debug.Log($"패턴 실행 : {_currentPattern.GetType().ToString()}");
             _currentPattern.patternState = PatternState.Running;
             _currentPattern.PatternStart();
-            yield return new WaitUntil(()=> _currentPattern.patternState == PatternState.Success);
+            yield return new WaitUntil(() => _currentPattern.patternState == PatternState.Success);
             _currentPattern.patternState = PatternState.None;
 
             _currentPattern = _currentPattern.GetSubPattern();
@@ -105,20 +106,34 @@ public class Ariadne_Unit : BossUnit
 
     public Sequence Move(Vector2Int targetPos)
     {
-        if(_moveSeq != null)
+        DiceManager.Instance.TryGetDice(targetPos, out var targetDice);
+
+        if (_moveSeq != null)
         {
             _moveSeq.Kill();
         }
+        Vector3 endPosition = targetDice.transform.position;
+        this.ClearMyDice();
         _moveSeq = DOTween.Sequence();
-        _moveSeq.Append(transform.DOMoveY(transform.position.y + 0.5f, _upTime));
-        _moveSeq.Append(transform.DOMove(new Vector3(targetPos.x, targetPos.y + 0.5f), _moveTime));
-        _moveSeq.Append(transform.DOMoveY(transform.position.y - 0.5f, _downTime));
+        _moveSeq.Append(transform.DOMoveY(transform.position.y + 0.5f, _upTime)).SetEase(Ease.Linear);
+        _moveSeq.Append(transform.DOMove(new Vector3(endPosition.x, endPosition.y + 0.5f), _moveTime)).SetEase(Ease.Linear);
+        _moveSeq.Append(transform.DOMoveY(endPosition.y, _downTime)).SetEase(Ease.Linear);
+        _moveSeq.AppendCallback(() => this.ChangeMyDice(targetPos, out var targetDice)); // 무조건 가져오도록
         return _moveSeq;
     }
 
     public Sequence MoveAndAttack(Vector2Int targetPos, IEnumerable<Dice> attackRange)
     {
-        return Move(targetPos).InsertCallback(_upTime + _moveTime, ()=> Attack(attackRange));
+        Sequence seq = Move(targetPos);
+        seq.InsertCallback(_upTime, () => Attack(attackRange));
+        seq.AppendCallback(() =>
+        {
+            if (CameraManager.Instance != null)
+            {
+                CameraManager.Instance.CameraShake(5f, 3f, 0.1f);
+            }
+        });
+        return seq;
     }
 
     private void Attack(IEnumerable<Dice> attackRange)
@@ -126,7 +141,7 @@ public class Ariadne_Unit : BossUnit
         foreach (var dice in attackRange)
         {
             dice.RollDiceWithRandom(1, 7);
-            dice.ColorAnimation(_downTime);
+            dice.ColorAnimation((_moveTime + _downTime) * 0.5f);
         }
     }
 }
