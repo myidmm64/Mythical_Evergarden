@@ -817,7 +817,7 @@ MonoBehaviour:
     atk: 0
   state: 1
   _testHitPopupData: {fileID: 11400000, guid: 2cd703d1d0d3f084ebb7c94ef6777bc7, type: 2}
-  _mapHp: 4000
+  _maxHp: 300
   _hpBar: {fileID: 1820556663423138235}
   _patterns:
   - name: "\uB124\uBAA8 \uD328\uD134"

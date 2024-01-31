@@ -11,7 +11,7 @@ public class Ariadne_Unit : BossUnit
     [SerializeField]
     private PopupDataSO _testHitPopupData = null;
     [SerializeField]
-    private int _mapHp = 4000;
+    private int _maxHp = 4000;
     [SerializeField]
     private HPBar _hpBar = null;
 
@@ -46,8 +46,9 @@ public class Ariadne_Unit : BossUnit
 
     private void Init()
     {
-        _curHp = _mapHp;
-        _hpBar?.HpInit(_mapHp);
+        _curHp = _maxHp;
+        _hpBar?.HpInit(_maxHp);
+
         if (_player == null)
         {
             _player = GameObject.FindObjectOfType<PlayerBase>();

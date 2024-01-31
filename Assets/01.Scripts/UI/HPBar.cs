@@ -22,6 +22,7 @@ public class HPBar : MonoBehaviour
         _slider.minValue = 0;
         _slider.maxValue = maxHp;
         _slider.value = maxHp;
+        _text.SetText($"{(int)_slider.maxValue}/{(int)_slider.maxValue}");
     }
 
     public void HpUpdate(int targetValue)

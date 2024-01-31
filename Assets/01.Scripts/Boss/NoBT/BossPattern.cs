@@ -27,6 +27,10 @@ public abstract class BossPattern : MonoBehaviour
     {
         return null;
     }
+    protected virtual IEnumerator PatternCoroutine()
+    {
+        yield break;
+    }
 }
 
 public enum PatternState

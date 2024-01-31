@@ -22,7 +22,7 @@ public class Ari_RectPattern : BossPattern
         _bossUnit.StartCoroutine(PatternCoroutine());
     }
 
-    private IEnumerator PatternCoroutine()
+    protected override IEnumerator PatternCoroutine()
     {
         Ariadne_Unit myBoss = _bossUnit as Ariadne_Unit;
         yield return new WaitForSeconds(myBoss._testWaitTime);
